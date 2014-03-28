@@ -11,7 +11,6 @@ class instance():
         self.line_tokens = [self.parser.parse_string(line) for line in open(filename, 'r')]
         self.cursor_x, self.cursor_y, self.curr_top = 0, 0, 0
         self.visual_x, self.visual_y, self.visual_curr_top = 0, 0, 0
-        self.meta_data = json.loads(open('.shimdata', 'r').read())
         self.undo_buffer, self.undo_index = [], -1
 
     def check_repeat_additions(self, diff, last_state):
@@ -138,9 +137,6 @@ class instance():
 
     def get_visual_anchors(self):
         return self.visual_x, self.visual_y, self.visual_curr_top
-
-    def get_meta_data(self):
-        return self.meta_data
 
     def add_line(self, index, line):
         self.add_to_undo_buffer(('+', index,
