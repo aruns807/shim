@@ -165,9 +165,14 @@ class user_input():
         interaction_manager.render_page(
             [], [], self._graphics, self.instances[self.curr_instance], self)
 
-    # TODO: THIS LOOKS HACKY
     def mouse_scroll(self, event):
-        # run up or down command depending on scroll direction
+        """
+        Scroll mouse depending on direction moved by
+        calling cursor up or cursor down repeatedly.
+        TODO: This is clearly not optimal. The calling
+        move_cursor_up or down re-renders the page repeatedly and
+        is inefficient
+        """
         delta = event.delta * -1
         self.curr_state = 'Default'
         self.command_buffer = ''
@@ -176,6 +181,10 @@ class user_input():
             cmd, self._graphics, self.get_curr_instance(), None)
 
     def user_key_pressed(self, key):
+        """
+        Main input router. Routes key input to appropriate
+        key handlers dependent upon global state
+        """
         if self.curr_state == 'Default':
             self.user_key_default(key)
         elif self.curr_state == 'Insert':
@@ -200,14 +209,18 @@ class user_input():
         self.curr_state = 'Visual'
 
     def user_key_default(self, key):
+        """
+        Handle keys in default mode
+        """
         mode_dict = {
             'i': self.init_insert_mode,
             'v': self.init_visual_mode,
             ':': self.init_ex_mode,
         }
-        # Command to be buffered
-        if key in DEFAULT_COMMAND_LEADERS
-        or self.is_digit(key) or len(self.command_buffer):
+
+        if key in DEFAULT_COMMAND_LEADERS  # Command to be buffered
+        or self.is_digit(key)
+        or len(self.command_buffer):
             self.command_buffer += key
             s_par = command_parser.default_parse(self.command_buffer)
 
@@ -217,19 +230,19 @@ class user_input():
                     cmd, self._graphics, self.get_curr_instance(), self)
                 self.command_buffer = ''
 
-        # default movement requested
-        elif key in DEFAULT_MOVEMENTS:
+        elif key in DEFAULT_MOVEMENTS:  # default movement requested
             interaction_manager.input_command(
                 DEFAULT_MOVEMENTS[key], self._graphics,
                 self.get_curr_instance(), self
             )
             self.command_buffer = ''
-        # mode change requested
-        elif key in mode_dict:
+        elif key in mode_dict:  # mode change requested
             mode_dict[key]()
 
     def user_key_insert(self, key):
         """
+        Handle keys in insert mode
+
         This should be the only state that should contain
         at least these mappings no matter the configuration
         """
@@ -252,6 +265,13 @@ class user_input():
             )
 
     def user_key_visual(self, key):
+        """
+        Handle keys in visual mode
+        TODO: expand this section to handle multi command
+        arguments
+        i.e finds should work in visual mode
+        Dependent upon a proper command parser however
+        """
         if key in VISUAL_MOVEMENTS:
             motion = VISUAL_MOVEMENTS[key]
             cmd = ['s' + motion[0], 'visual_movement']
@@ -262,6 +282,16 @@ class user_input():
             self.command_buffer = ''
 
     def user_key_ex(self, key):
+        """
+        Handle keys in ex mode
+        TODO: expand this section to handle multi command
+        arguments
+        i.e finds should work in visual mode
+        Dependent upon a proper command parser however
+
+        This mode is kind of limited for now since we don't
+        have a proper command parser yet
+        """
         if key == 'Return':
             cmd = command_parser.ex_parse(self.command_buffer)
             interaction_manager.input_command(

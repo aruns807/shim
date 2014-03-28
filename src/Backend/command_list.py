@@ -1,6 +1,6 @@
 # Python variables containing useful mapping translations
-# i.e Tkinter keysym event mapping to useful character mapping, for example 'comma': ','
-#
+# i.e Tkinter keysym event mapping to useful character mapping
+# like 'comma': ','
 # This should be able to be manipulated by the user in some fashion
 # to enable custom key mappings and potentially more(design required)
 
