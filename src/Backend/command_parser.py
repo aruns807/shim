@@ -1,4 +1,12 @@
-import re, command_list
+# Command parser logic
+# Logic to parse commands longer than a single character should go here
+# TODO: Implement a proper command parser. The current approach of
+# throwing regexes at the problem will not cut it in the future 
+# when commands get more complex
+# This file definitely needs a rewrite
+
+import re
+import command_list
 
 def goto_line_num(s):
     ind = s.find('gg')
@@ -44,13 +52,13 @@ def write(s):
 
 
 DEFAULT_COMMAND_MAP = {
-                          re.compile('[0-9]*gg'): goto_line_num,
-                          re.compile('f.'): seek_char,
-                          re.compile('[0-9]+[h|j|k|l|\{|\}]'): repeat_default_movement,
-                          re.compile('d[h|j|k|l|{|}|w|b|e]'): delete_text_movement,
-                          re.compile('[0-9]*dd'): delete_curr_line,
-                          re.compile('yy'): yank_curr_line
-                      }
+    re.compile('[0-9]*gg'): goto_line_num,
+    re.compile('f.'): seek_char,
+    re.compile('[0-9]+[h|j|k|l|\{|\}]'): repeat_default_movement,
+    re.compile('d[h|j|k|l|{|}|w|b|e]'): delete_text_movement,
+    re.compile('[0-9]*dd'): delete_curr_line,
+    re.compile('yy'): yank_curr_line
+}
 
 
 def default_parse(s):
@@ -77,8 +85,10 @@ EX_COMMAND_MAP = {
                      re.compile('w'): write
                  }
 
-# TODO:this won't work for actual commands because of the overlap. Figure out a smarter way to do this please
 def ex_parse(s):
+    """
+    TODO(mentioned above): this won't work for actual commands because of the overlap. Figure out a smarter way to do this please
+    """
     print s
     for r, func in EX_COMMAND_MAP.items():
         s_par = r.search(s)
