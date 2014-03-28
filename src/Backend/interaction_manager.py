@@ -1,5 +1,5 @@
-# Routes keyboard input to appropriate interaction manager to mutate instance state
-# page is then re-rendered given new state
+# Routes keyboard input to appropriate interaction manager
+# to mutate instance state page is then re-rendered given new state
 # Events are fed directly from user_input
 # Interaction manager should not have to parse user input keys directly
 import sys
@@ -15,15 +15,16 @@ def render_default_graphics(graphics_state, local_state, global_state):
     buff_line_count = graphics_state.get_line_height()
 
     graphics_state.draw_cursor(x, y)
-    graphics_state.draw_line_numbers(curr_top + 1) # Top is zero indexed and line numbers are one indexed
+    graphics_state.draw_line_numbers(curr_top + 1)
     for i in range(buff_line_count + 1):
         try:
-            graphics_state.write_line_grid(i, lines[curr_top + i]) # End of file
+            graphics_state.write_line_grid(i, lines[curr_top + i])
         except IndexError:
             break
     x, y, t = local_state.get_page_state()
-    status_line = 'file: %s  |  mode: %s  |  %d, %d | command buffer: %s' \
-            % (local_state.get_filename(), global_state.curr_state, x, y + t, global_state.command_buffer)
+    status_line = 'file: %s  |  mode: %s  |  %d, %d | command buffer: %s' % \
+        (local_state.get_filename(), global_state.curr_state, x, y + t,
+            global_state.command_buffer)
     graphics_state.write_status_line(status_line)
 
 
@@ -107,6 +108,7 @@ def move_next_word_end(graphics_state, local_state, global_state):
     cursor_logic.move_cursor_next_word_end(local_state)
     render_page([], [], graphics_state, local_state, global_state)
 
+
 def move_prev_word_front(graphics_state, local_state, global_state):
     """
     Functionality corresponding to b in vim
@@ -183,6 +185,7 @@ def add_new_line(graphics_state, local_state, global_state):
     """
     text_logic.add_new_line_char(local_state)
     render_page([], [], graphics_state, local_state, global_state)
+
 
 def delete_text_movement(movement, graphics_state, local_state, global_state):
     """
@@ -284,8 +287,9 @@ def visual_movement(motion, graphics_state, local_state, global_state):
     COMMAND_MAP[motion](graphics_state, local_state, global_state)
     # some commands break out of visual mode
     if global_state.curr_state == 'Visual':
-        func = lambda: graphics_logic.highlight_visual_mode(graphics_state, local_state)
-        render_page([], [func], graphics_state, local_state, global_state)
+        f = lambda:
+            graphics_logic.highlight_visual_mode(graphics_state, local_state)
+        render_page([], [f], graphics_state, local_state, global_state)
 
 
 def paste(graphics_state, local_state, global_state):
@@ -435,7 +439,8 @@ def input_command_arg(commands, graphics_state, local_state, global_state):
     opt_arg = commands[0][1:]
     in_arg = commands[1]
     if commands[0].startswith('n'):
-        COMMAND_MAP[in_arg](int(opt_arg), graphics_state, local_state, global_state)
+        COMMAND_MAP[in_arg](
+            int(opt_arg), graphics_state, local_state, global_state)
     elif commands[0].startswith('r'):
         for i in range(int(opt_arg)):
             COMMAND_MAP[in_arg](graphics_state, local_state, global_state)

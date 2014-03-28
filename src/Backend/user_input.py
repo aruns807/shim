@@ -1,7 +1,17 @@
-import interaction_manager, command_list, command_parser
+# Entry point for user input
+# Events are bound in graphics intialization to user_input instance
+# Events are coerced into a usable form and passed into
+# user_input.user_key_pressed
+#
+# parsed commands are passed in list form over to interaction_manager.py
+# the interaction_manager should not have to handle raw user input
+
+import re
 from copy import deepcopy
 from State import instance
-import re
+import command_list
+import command_parser
+import interaction_manager
 
 DEFAULT_MOVEMENTS = command_list.DEFAULT_MOVEMENTS
 DEFAULT_COMMAND_LEADERS = command_list.DEFAULT_COMMAND_LEADERS
@@ -9,11 +19,11 @@ VISUAL_MOVEMENTS = command_list.VISUAL_MOVEMENTS
 BREAK_MOVEMENTS = command_list.BREAK_MOVEMENTS
 COMMAND_MAP = command_list.COMMAND_MAP
 
-# parses keyboard input for meaningful instructions
-# sends "completed" instructions to interaction_manager router
+
 class user_input():
+
     def __init__(self):
-        self.graphics = None
+        self._graphics = None
         self.curr_state, self.command_buffer = 'Default', ''
         self.instances, self.copy_buffer, self.curr_instance = [], [], 0
 
@@ -21,9 +31,12 @@ class user_input():
         self.instances.append(instance.instance(filename))
 
     def set_GUI_reference(self, canvas):
-        self.graphics = canvas
-        self.instances[self.curr_instance].set_line_height(self.graphics.line_height)
-        interaction_manager.render_page([], [], self.graphics, self.get_curr_instance(), self)
+        self._graphics = canvas
+        self.instances[self.curr_instance].set_line_height(
+            self._graphics.line_height)
+        interaction_manager.render_page(
+            [], [], self._graphics,
+            self.get_curr_instance(), self)
 
     def add_copy_buffer(self, l):
         self.copy_buffer = l
@@ -37,22 +50,23 @@ class user_input():
     def go_next_instance(self):
         if self.curr_instance < len(self.instances) - 1:
             self.curr_instance += 1
-            self.set_GUI_reference(self.graphics)
+            self.set_GUI_reference(self._graphics)
 
     def go_prev_instance(self):
         if self.curr_instance > 0:
             self.curr_instance -= 1
-            self.set_GUI_reference(self.graphics)
+            self.set_GUI_reference(self._graphics)
 
-    # checks if key input an integer greater than 0 and less than 10
     def is_digit(self, k):
+        """
+        checks if key input an integer greater than 0 and less than 10
+        """
         return (len(k) == 1) and (ord(k) >= 49 and ord(k) <= 57)
 
     def key(self, event):
         key = event.keysym
         if key != '??':
-            # if key is not in [a-zA-Z0-9] length of keysym will be greater than one
-            if len(key) > 1:
+            if len(key) > 1:  # length > 1 if not alphanumeric
                 try:
                     k = COMMAND_MAP[key]
                     self.user_key_pressed(k)
@@ -108,6 +122,7 @@ class user_input():
 
     def control_p(self, event):
         self.user_key_pressed('<Control-p>')
+
     def control_q(self, event):
         self.user_key_pressed('<Control-q>')
 
@@ -147,7 +162,8 @@ class user_input():
     def escape(self, event):
         self.curr_state = 'Default'
         self.command_buffer = ''
-        interaction_manager.render_page([], [], self.graphics, self.instances[self.curr_instance], self)
+        interaction_manager.render_page(
+            [], [], self._graphics, self.instances[self.curr_instance], self)
 
     # TODO: THIS LOOKS HACKY
     def mouse_scroll(self, event):
@@ -156,7 +172,8 @@ class user_input():
         self.curr_state = 'Default'
         self.command_buffer = ''
         cmd = ['n' + str(delta), 'mouse_scroll']
-        interaction_manager.input_command(cmd, self.graphics, self.get_curr_instance(), None)
+        interaction_manager.input_command(
+            cmd, self._graphics, self.get_curr_instance(), None)
 
     def user_key_pressed(self, key):
         if self.curr_state == 'Default':
@@ -183,48 +200,74 @@ class user_input():
         self.curr_state = 'Visual'
 
     def user_key_default(self, key):
-        mode_dict = { 'i': self.init_insert_mode, 'v': self.init_visual_mode, ':': self.init_ex_mode, }
+        mode_dict = {
+            'i': self.init_insert_mode,
+            'v': self.init_visual_mode,
+            ':': self.init_ex_mode,
+        }
         # Command to be buffered
-        if key in DEFAULT_COMMAND_LEADERS or self.is_digit(key) or len(self.command_buffer):
+        if key in DEFAULT_COMMAND_LEADERS
+        or self.is_digit(key) or len(self.command_buffer):
             self.command_buffer += key
             s_par = command_parser.default_parse(self.command_buffer)
 
             if s_par != '' or key in BREAK_MOVEMENTS:
                 cmd = s_par if s_par != '' else BREAK_MOVEMENTS[key]
-                interaction_manager.input_command(cmd, self.graphics, self.get_curr_instance(), self)
+                interaction_manager.input_command(
+                    cmd, self._graphics, self.get_curr_instance(), self)
                 self.command_buffer = ''
 
         # default movement requested
         elif key in DEFAULT_MOVEMENTS:
-            interaction_manager.input_command(DEFAULT_MOVEMENTS[key], self.graphics, self.get_curr_instance(), self)
+            interaction_manager.input_command(
+                DEFAULT_MOVEMENTS[key], self._graphics,
+                self.get_curr_instance(), self
+            )
             self.command_buffer = ''
         # mode change requested
         elif key in mode_dict:
             mode_dict[key]()
 
-    # this should be the only state that doesn't change no matter the configuration
     def user_key_insert(self, key):
-        if not key in ['BackSpace', 'Return']:
+        """
+        This should be the only state that should contain
+        at least these mappings no matter the configuration
+        """
+        if key not in ['BackSpace', 'Return']:
             cmd = ['s' + key, 'insert_text']
-            interaction_manager.input_command(cmd, self.graphics, self.get_curr_instance(), self)
-        # one of the only few scenarios where the command is the same no matter the configuration?
+            interaction_manager.input_command(
+                cmd, self._graphics,
+                self.get_curr_instance(), self
+            )
         elif key == 'BackSpace':
-            interaction_manager.input_command(['delete_char'], self.graphics, self.get_curr_instance(), self)
+            interaction_manager.input_command(
+                ['delete_char'], self._graphics,
+                self.get_curr_instance(), self
+            )
         # similar to above
         elif key == 'Return':
-            interaction_manager.input_command(['add_new_line'], self.graphics, self.get_curr_instance(), self)
+            interaction_manager.input_command(
+                ['add_new_line'], self._graphics,
+                self.get_curr_instance(), self
+            )
 
     def user_key_visual(self, key):
         if key in VISUAL_MOVEMENTS:
             motion = VISUAL_MOVEMENTS[key]
             cmd = ['s' + motion[0], 'visual_movement']
-            interaction_manager.input_command(cmd, self.graphics, self.get_curr_instance(), self)
+            interaction_manager.input_command(
+                cmd, self._graphics,
+                self.get_curr_instance(), self
+            )
             self.command_buffer = ''
 
     def user_key_ex(self, key):
         if key == 'Return':
             cmd = command_parser.ex_parse(self.command_buffer)
-            interaction_manager.input_command(cmd, self.graphics, self.get_curr_instance(), self)
+            interaction_manager.input_command(
+                cmd, self._graphics,
+                self.get_curr_instance(), self
+            )
             self.curr_state = 'Default'
             self.command_buffer = ''
         elif key == 'BackSpace':
