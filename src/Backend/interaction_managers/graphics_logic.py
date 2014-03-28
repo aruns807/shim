@@ -1,4 +1,7 @@
 def highlight_visual_mode(graphics_state, local_state):
+    """
+    TODO: remove magic numbers from code here
+    """
     nx, ny, nt = local_state.get_page_state()
     px, py, pt = local_state.get_visual_anchors()
 
@@ -21,7 +24,8 @@ def highlight_visual_mode(graphics_state, local_state):
             graphics_state.draw_highlight_grid(ny, 0, nx)
             graphics_state.write_text_grid(0, ny, ln, '#839496')
 
-        start, end = ((py + pt, ny + nt), (ny + nt, py + pt))[(ny + nt) < (py + pt)]
+        start, end = (
+            (py + pt, ny + nt), (ny + nt, py + pt))[(ny + nt) < (py + pt)]
         for n in range(start - nt + 1, end - nt):
             l = local_state.get_line(n + nt)
             graphics_state.draw_highlight_grid(n, 0, len(l) - 1)
