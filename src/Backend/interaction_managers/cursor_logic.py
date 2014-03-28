@@ -145,8 +145,9 @@ def move_cursor_next_paragraph(local_state):
     x, y = local_state.get_cursor()
     accept_all = False
 
-    for offset, line_num in
-    enumerate(range(y + curr_top + 1, local_state.get_line_num() - 1)):
+    for offset, line_num in enumerate(
+        range(y + curr_top + 1, local_state.get_line_num() - 1)
+    ):
         l = local_state.get_line(line_num).strip()
         if (l == '') and accept_all:
             return local_state.set_cursor(0, y + offset + 1)
@@ -205,16 +206,19 @@ def move_cursor_next_word_front(local_state):
     x, y = local_state.get_cursor()
     accept_all = False
 
-    for index, char in
-    enumerate((local_state.get_line(y + curr_top)[x + 1:])):
-        if (accept_all and char != ' ')
-        or (char in ["'", '[', ']', '(', ')', '-', '+', '{', '}']):
+    for index, char in enumerate(
+        (local_state.get_line(y + curr_top)[x + 1:])
+    ):
+        if (accept_all and char != ' ') or (
+            char in ["'", '[', ']', '(', ')', '-', '+', '{', '}']
+        ):
             return local_state.set_cursor(x + index + 1, y)
         elif char == ' ':
             accept_all = True
 
-    for offset, line_num in
-    enumerate(range(y + curr_top + 1, local_state.get_line_num())):
+    for offset, line_num in enumerate(
+        range(y + curr_top + 1, local_state.get_line_num())
+    ):
         l = local_state.get_line(line_num)
         for index, char in enumerate(l):
             if char != ' ':
@@ -233,8 +237,9 @@ def move_cursor_move_prev_word_front(local_state):
     # Same as above, I'm pretty sure this can be cleaner.
     curr_str = local_state.get_line(y + curr_top)
     for dx in range(x - 1, -1, -1):
-        if (curr_str[dx] != ' ' and curr_str[dx - 1] == ' ')
-        or (curr_str[dx] in ["'", '[', ']', '(', ')', '-', '+', '{', '}']):
+        if (curr_str[dx] != ' ' and curr_str[dx - 1] == ' ') or (
+            curr_str[dx] in ["'", '[', ']', '(', ')', '-', '+', '{', '}']
+        ):
             return local_state.set_cursor(dx, y)
         elif (curr_str[dx] != ' ') and dx == 0:
             return local_state.set_cursor(dx, y)
@@ -242,8 +247,9 @@ def move_cursor_move_prev_word_front(local_state):
     for dy, line_num in enumerate(range(y + curr_top - 1, -1, -1)):
         curr_str = local_state.get_line(line_num)
         for dx in range(len(curr_str) - 1, 0, -1):
-            if (curr_str[dx] != ' ' and curr_str[dx - 1] == ' ')
-            or (curr_str[dx] in ["'", '[', ']', '(', ')', '-', '+', '{', '}']):
+            if (curr_str[dx] != ' ' and curr_str[dx - 1] == ' ') or (
+                curr_str[dx] in ["'", '[', ']', '(', ')', '-', '+', '{', '}']
+            ):
                 return local_state.set_cursor(dx, y - dy - 1)
 
 
@@ -258,14 +264,17 @@ def move_cursor_next_word_end(local_state):
     curr_str = local_state.get_line(curr_top + y)
 
     for dx in range(x + 2, len(curr_str) - 1):
-        if (curr_str[dx] == ' ' and curr_str[dx - 1] != ' ')
-        or (curr_str[dx] in ["'", '[', ']', '(', ')', '-', '+', '{', '}']):
+        if (curr_str[dx] == ' ' and curr_str[dx - 1] != ' ') or (
+            curr_str[dx] in ["'", '[', ']', '(', ')', '-', '+', '{', '}']
+        ):
             return local_state.set_cursor(dx - 1, y)
 
-    for dy, line_num in
-    enumerate(range(y + curr_top + 1, local_state.get_line_num())):
+    for dy, line_num in enumerate(
+        range(y + curr_top + 1, local_state.get_line_num())
+    ):
         curr_str = local_state.get_line(line_num)
         for dx in range(len(curr_str)):
-            if (curr_str[dx] == ' ' and curr_str[dx - 1] != ' ')
-            or (curr_str[dx] in ["'", '[', ']', '(', ')', '-', '+', '{', '}']):
+            if (curr_str[dx] == ' ' and curr_str[dx - 1] != ' ') or (
+                curr_str[dx] in ["'", '[', ']', '(', ')', '-', '+', '{', '}']
+            ):
                 return local_state.set_cursor(dx - 1, y + dy + 1)

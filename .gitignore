@@ -1,2 +1,3 @@
 *.pyc
 *.shimdata
+.DS_Store

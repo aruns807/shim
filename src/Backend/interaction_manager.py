@@ -287,8 +287,9 @@ def visual_movement(motion, graphics_state, local_state, global_state):
     COMMAND_MAP[motion](graphics_state, local_state, global_state)
     # some commands break out of visual mode
     if global_state.curr_state == 'Visual':
-        f = lambda:
-            graphics_logic.highlight_visual_mode(graphics_state, local_state)
+        f = lambda: graphics_logic.highlight_visual_mode(
+            graphics_state, local_state
+        )
         render_page([], [f], graphics_state, local_state, global_state)
 
 

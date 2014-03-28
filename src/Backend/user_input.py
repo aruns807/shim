@@ -31,6 +31,10 @@ class user_input():
         self.instances.append(instance.instance(filename))
 
     def set_GUI_reference(self, canvas):
+        """
+        Set graphics reference for particular instance and render page
+        This should really only be done once per instace
+        """
         self._graphics = canvas
         self.instances[self.curr_instance].set_line_height(
             self._graphics.line_height)
@@ -48,11 +52,17 @@ class user_input():
         return self.copy_buffer
 
     def go_next_instance(self):
+        """
+        Go to next instance if there is one available
+        """
         if self.curr_instance < len(self.instances) - 1:
             self.curr_instance += 1
             self.set_GUI_reference(self._graphics)
 
     def go_prev_instance(self):
+        """
+        Go to previous instance if there is one available
+        """
         if self.curr_instance > 0:
             self.curr_instance -= 1
             self.set_GUI_reference(self._graphics)
@@ -218,9 +228,9 @@ class user_input():
             ':': self.init_ex_mode,
         }
 
-        if key in DEFAULT_COMMAND_LEADERS  # Command to be buffered
-        or self.is_digit(key)
-        or len(self.command_buffer):
+        if key in DEFAULT_COMMAND_LEADERS \
+            or self.is_digit(key) \
+                or len(self.command_buffer):
             self.command_buffer += key
             s_par = command_parser.default_parse(self.command_buffer)
 
