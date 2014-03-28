@@ -10,9 +10,10 @@ def opt_init():
     group = parser.add_mutually_exclusive_group()
     group.add_argument(dest='filename', action='store', metavar='FILE', nargs='?')
     group.add_argument('-m', '--load-meta-data', dest='load_meta_data',
-                      action='store_true', default=False, help='Run meta data loader')
+                      action='store_true', default=False, help='run meta data loader')
     group.add_argument('-l', '--load-plugins', dest='load_plugins', metavar='PATH',
-                      action='store', default=None, help='Run plugin loader with directory name')
+                      action='store', default=None, help='run plugin loader with directory name')
+    parser.add_argument('-v', '--version', action='version', version='/dev/null')
     return parser
 
 def run_text_editor(filename):
