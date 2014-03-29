@@ -5,18 +5,29 @@
 See http://swong15.github.io/shim/ for overview
 
 To install dependencies:
-```
-pip install pygments
-```
 
-Right now syntax highlighting is done with pygments(whether or not we ultimately use this can be decided later).
+In the shim root directory
+```
+pip install -r requirements.txt
+```
 
 To run:
 
-Add src/shim.py to your path and run it with
-
+To add shim.py to your path in your .bashrc (~/.bashrc to edit) or .zshrc if you're using zsh etc
 ```
-shim filename
+export PATH="[path-to-shim-folder-goes-here]/shim/src:$PATH"
 ```
-
-On first run shim generates metadata files so the first run should take a little longer depending upon directory size.
+If you are unsure as to what the path should look like:
+From the shim/src folder enter in your terminal
+```
+pwd
+```
+Suppose the output of that command was /Users/sebastianwong/Desktop/shim/src then add the following line to your .bashrc file (typically located at ~/.bashrc)
+```
+export PATH="/Users/sebastianwong/Desktop/shim/src:$PATH"
+source ~/.bashrc
+```
+Now you should be able to edit files with shim by typing
+```
+shim.py filename
+```
