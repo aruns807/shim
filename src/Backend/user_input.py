@@ -8,10 +8,10 @@
 
 import re
 from copy import deepcopy
-from State import instance
-import command_list
-import command_parser
-import interaction_manager
+from Backend.State import instance
+from Backend import command_list
+from Backend import command_parser
+from Backend import interaction_manager
 
 DEFAULT_MOVEMENTS = command_list.DEFAULT_MOVEMENTS
 DEFAULT_COMMAND_LEADERS = command_list.DEFAULT_COMMAND_LEADERS
