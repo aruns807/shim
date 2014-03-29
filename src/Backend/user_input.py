@@ -310,7 +310,13 @@ class user_input():
             )
             self.curr_state = 'Default'
             self.command_buffer = ''
-        elif key == 'BackSpace':
-            self.command_buffer = self.command_buffer[:-1]
         else:
-            self.command_buffer += key
+            self.command_buffer = (
+                self.command_buffer + key,
+                self.command_buffer[:-1]
+            )[key == 'BackSpace']
+
+            interaction_manager.render_page(
+                [], [], self._graphics,
+                self.get_curr_instance(), self
+            )

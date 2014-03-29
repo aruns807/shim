@@ -91,7 +91,6 @@ def ex_parse(s):
     """
     TODO(mentioned above): this won't work for actual commands because of the overlap. Figure out a smarter way to do this please
     """
-    print(s)
     for r, func in EX_COMMAND_MAP.items():
         s_par = r.search(s)
         if bool(s_par):
