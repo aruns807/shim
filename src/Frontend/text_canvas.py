@@ -3,6 +3,9 @@
 # from this class
 # TODO: Discuss what kind of functions this class
 # should provide
+
+from __future__ import division
+
 try:
     from tkinter import Tk, Canvas, BOTH
     from tkinter.ttk import Frame
@@ -25,7 +28,7 @@ class text_canvas(Frame):
         self.cheight, self.cwidth = font_size, self.text_font.measure('c')
         self.line_num_spacing = 50
         self.line_height = (
-            (self.winfo_screenheight() - self.cheight)/(self.cheight + 2) - 4
+            (self.winfo_screenheight() - self.cheight)//(self.cheight + 2) - 4
         )
         self.init_UI(input_handler)
 
