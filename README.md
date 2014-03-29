@@ -25,9 +25,12 @@ pwd
 Suppose the output of that command was /Users/sebastianwong/Desktop/shim/src then add the following line to your .bashrc file (typically located at ~/.bashrc)
 ```
 export PATH="/Users/sebastianwong/Desktop/shim/src:$PATH"
+```
+Now run
+```
 source ~/.bashrc
 ```
-Now you should be able to edit files with shim by typing
+You should then be able to edit files with shim by typing
 ```
 shim.py filename
 ```
