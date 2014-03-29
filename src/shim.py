@@ -5,9 +5,8 @@ from Backend import user_input
 from argparse import ArgumentParser
 
 def opt_init():
-    parser = ArgumentParser(description='A vim inspired text editor for all')
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument(dest='filename', action='store', metavar='FILE', nargs='?')
+    parser = ArgumentParser(description='A vim inspired text editor')
+    parser.add_argument(dest='filename', action='store', metavar='FILE', nargs='?')
     parser.add_argument('-v', '--version', action='version', version='/dev/null')
     return parser
 
