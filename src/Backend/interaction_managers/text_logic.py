@@ -1,4 +1,4 @@
-import cursor_logic
+from Backend.interaction_managers import cursor_logic
 
 
 def insert_text_str(s, local_state):

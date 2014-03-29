@@ -5,8 +5,10 @@
 # when commands get more complex
 # This file definitely needs a rewrite
 
+from __future__ import print_function
+
 import re
-import command_list
+from Backend import command_list
 
 def goto_line_num(s):
     ind = s.find('gg')
@@ -89,7 +91,7 @@ def ex_parse(s):
     """
     TODO(mentioned above): this won't work for actual commands because of the overlap. Figure out a smarter way to do this please
     """
-    print s
+    print(s)
     for r, func in EX_COMMAND_MAP.items():
         s_par = r.search(s)
         if bool(s_par):

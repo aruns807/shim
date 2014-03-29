@@ -3,11 +3,15 @@
 # from this class
 # TODO: Discuss what kind of functions this class
 # should provide
-from Tkinter import Tk, Canvas, BOTH
-from color_config import options
-from ttk import Frame
-import tkFont
-
+try:
+    from tkinter import Tk, Canvas, BOTH
+    from tkinter.ttk import Frame
+    import tkinter.font as tkFont
+except ImportError:
+    from Tkinter import Tk, Canvas, BOTH
+    from ttk import Frame
+    import tkFont
+from Frontend.color_config import options
 
 class text_canvas(Frame):
 
