@@ -3,6 +3,7 @@
 # multiple instance classes being open at the same time
 
 import json
+import os
 from copy import deepcopy
 from Backend.State.SyntaxTokens import syntax_parser
 
@@ -11,13 +12,17 @@ class instance():
 
     def __init__(self, filename):
         self.filename = filename
-        self.lines = [
-            line for line in open(filename, 'r')
-        ]
         self.parser = syntax_parser.syntax_parser(filename)
-        self.line_tokens = [
-            self.parser.parse_string(line) for line in open(filename, 'r')
-        ]
+        if os.path.exists(filename):
+            self.lines = [
+                line for line in open(filename, 'r')
+            ]
+            self.line_tokens = [
+                self.parser.parse_string(line) for line in open(filename, 'r')
+            ]
+        else:
+            self.lines = ['']
+            self.line_tokens = ['']
 
         self.cursor_x, self.cursor_y, self.curr_top = 0, 0, 0
         self.visual_x, self.visual_y, self.visual_curr_top = 0, 0, 0
