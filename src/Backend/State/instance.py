@@ -184,11 +184,18 @@ class instance():
         Save lines added in memory so undo and
         redo can be performed
         """
+        try:
+            li = self.lines[index]
+            lt = self.line_tokens[index]
+        except IndexError:
+            li = ''
+            lt = self.parser.parse_string('')
+
         d = {
             'count': 1,
             'data': {
-                'lines': [self.lines[index]],
-                'line_tokens': [self.line_tokens[index]],
+                'lines': [li],
+                'line_tokens': [lt],
             },
             'state': self.get_page_state(),
             'last_addition': index,
@@ -207,7 +214,6 @@ class instance():
             'lines': [self.lines[index]],
             'line_tokens': [self.line_tokens[index]],
             'state': self.get_page_state(),
-
         }
         self.add_to_undo_buffer(('-', index, d))
         self.lines.pop(index)
