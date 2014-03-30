@@ -1,8 +1,5 @@
 #!/usr/bin/python
-try:
-    from tkinter import Tk, Image
-except ImportError:
-    from Tkinter import Tk, Image
+from tkinter import Tk, Image
 from argparse import ArgumentParser
 from Frontend import text_canvas
 from Backend import user_input

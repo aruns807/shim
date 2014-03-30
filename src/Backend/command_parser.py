@@ -5,8 +5,6 @@
 # when commands get more complex
 # This file definitely needs a rewrite
 
-from __future__ import print_function
-
 import re
 from Backend import command_list
 
