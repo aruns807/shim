@@ -62,7 +62,7 @@ DEFAULT_COMMAND_MAP = {
 
 
 def default_parse(s):
-    for r, func in DEFAULT_COMMAND_MAP.items():
+    for r, func in list(DEFAULT_COMMAND_MAP.items()):
         s_par = r.search(s)
         if bool(s_par):
             return func(s_par.group())
@@ -73,7 +73,7 @@ VISUAL_COMMAND_MAP = {
                      }
 
 def visual_parse(s):
-    for r, func in VISUAL_COMMAND_MAP.items():
+    for r, func in list(VISUAL_COMMAND_MAP.items()):
         s_par = r.search(s)
         if bool(s_par):
             return func(s_par.group())
@@ -89,7 +89,7 @@ def ex_parse(s):
     """
     TODO(mentioned above): this won't work for actual commands because of the overlap. Figure out a smarter way to do this please
     """
-    for r, func in EX_COMMAND_MAP.items():
+    for r, func in list(EX_COMMAND_MAP.items()):
         s_par = r.search(s)
         if bool(s_par):
             return func(s_par.group())
