@@ -7,7 +7,7 @@ from color_config import options
 import time
 
 def determine_color(t):
-    print t
+    print(t)
     if t is Token.Name.Class or t is Token.Name.Function:
         return options['function_name_color']
     elif t is Token.Keyword:
@@ -30,7 +30,7 @@ def parse(s, l):
         color = determine_color(token[0])
         ret_list.append((start, token[1], color))
         start += len(token[1])
-    print ret_list
+    print(ret_list)
 
 
 # time1 = time.time()

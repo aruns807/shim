@@ -4,16 +4,9 @@
 # TODO: Discuss what kind of functions this class
 # should provide
 
-from __future__ import division
-
-try:
-    from tkinter import Tk, Canvas, BOTH
-    from tkinter.ttk import Frame
-    import tkinter.font as tkFont
-except ImportError:
-    from Tkinter import Tk, Canvas, BOTH
-    from ttk import Frame
-    import tkFont
+from tkinter import Tk, Canvas, BOTH
+from tkinter.ttk import Frame
+import tkinter.font as tkFont
 from Frontend.color_config import options
 
 class text_canvas(Frame):
