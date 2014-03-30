@@ -234,7 +234,7 @@ def delete_curr_line(graphics_state, local_state, global_state):
     """
     Functionality corresponding to dd in vim
     """
-    text_logic.delete_current_line(local_state)
+    text_logic.delete_current_line(local_state, global_state)
     render_page([], [], graphics_state, local_state, global_state)
 
 

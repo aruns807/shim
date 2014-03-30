@@ -37,11 +37,14 @@ def delete_text_highlight(local_state):
     local_state.set_line(curr_top + y, curr_line[:x] + curr_line[x + 1:])
 
 
-def delete_current_line(local_state):
+def delete_current_line(local_state, global_state):
     """
     Functionality corresponding to dd in vim
     """
     x, y, curr_top = local_state.get_page_state()
+    global_state.add_copy_buffer(
+        [local_state.get_line(curr_top + y)]
+    )
     local_state.remove_line(curr_top + y)
     local_state.set_cursor(0, y)
 
