@@ -297,7 +297,7 @@ def paste(graphics_state, local_state, global_state):
     """
     Functionality corresponding to p in vim
     """
-    text_logic.insert_text_strs(local_state, global_state)
+    text_logic.insert_copy_buffer(local_state, global_state)
     render_page([], [], graphics_state, local_state, global_state)
 
 
@@ -375,6 +375,19 @@ def move_prev_instance_buffer(graphics_state, local_state, global_state):
     global_state.go_prev_instance()
 
 
+def visual_yank(graphics_state, local_state, global_state):
+    """
+    Place in copy buffer the text
+    currently selected under visual mode
+    """
+    px, py, pt = local_state.get_visual_anchors()
+    nx, ny, nt = local_state.get_page_state()
+    txt = text_logic.get_text_range(px, py, pt, nx, ny, nt, local_state)
+    global_state.add_copy_buffer(txt)
+    global_state.curr_state = 'Default'
+    render_page([], [], graphics_state, local_state, global_state)
+
+
 COMMAND_MAP = {
     'quit': quit,
     'write': write,
@@ -382,6 +395,7 @@ COMMAND_MAP = {
     'move_cursor_up': move_up,
     'insert_text': insert_text,
     'delete_char': delete_char,
+    'visual_yank': visual_yank,
     'undo_command': undo_command,
     'redo_command': redo_command,
     'mouse_scroll': mouse_scroll,

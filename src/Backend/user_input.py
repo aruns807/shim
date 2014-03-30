@@ -292,7 +292,7 @@ class user_input():
             )
             self.command_buffer = ''
         elif key in VISUAL_BREAK_MOVEMENTS:
-            cmd = [VISUAL_BREAK_MOVEMENTS[key]]
+            cmd = VISUAL_BREAK_MOVEMENTS[key]
             interaction_manager.input_command(
                 cmd, self._graphics,
                 self.get_curr_instance(), self
