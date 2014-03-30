@@ -102,7 +102,7 @@ VISUAL_MOVEMENTS = {
 }
 
 
-BREAK_MOVEMENTS = {
+DEFAULT_BREAK_MOVEMENTS = {
     'k': ['move_cursor_up'],
     'h': ['move_cursor_left'],
     'j': ['move_cursor_down'],
@@ -114,4 +114,9 @@ BREAK_MOVEMENTS = {
     'w': ['move_cursor_next_word_front'],
     'b': ['move_cursor_prev_word_front'],
     'x': ['delete_text_highlight'],
+}
+
+
+VISUAL_BREAK_MOVEMENTS = {
+    'y': ['visual_yank']
 }

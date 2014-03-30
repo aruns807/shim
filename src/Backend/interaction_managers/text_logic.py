@@ -11,7 +11,7 @@ def insert_text_str(s, local_state):
     local_state.set_cursor(x + len(s), y)
 
 
-def insert_text_strs(local_state, global_state):
+def insert_copy_buffer(local_state, global_state):
     """
     Insert multiple strings into line start at
     curr_top + y
@@ -19,13 +19,14 @@ def insert_text_strs(local_state, global_state):
     x, y, curr_top = local_state.get_page_state()
     paste_txt = global_state.get_copy_buffer()
 
-    curr_line = local_state.get_line(curr_top + y)
-    local_state.set_line(
-        curr_top + y,
-        curr_line[:x] + paste_txt[0].strip('\n') + curr_line[x:]
-    )
-    for i in range(len(paste_txt) - 1):
-        local_state.add_line(curr_top + y + i + 1, paste_txt[i + 1])
+    if len(paste_txt):
+        curr_line = local_state.get_line(curr_top + y)
+        local_state.set_line(
+            curr_top + y,
+            curr_line[:x] + paste_txt[0].strip('\n') + curr_line[x:]
+        )
+        for i in range(len(paste_txt) - 1):
+            local_state.add_line(curr_top + y + i + 1, paste_txt[i + 1])
 
 
 def delete_text_highlight(local_state):
@@ -37,11 +38,14 @@ def delete_text_highlight(local_state):
     local_state.set_line(curr_top + y, curr_line[:x] + curr_line[x + 1:])
 
 
-def delete_current_line(local_state):
+def delete_current_line(local_state, global_state):
     """
     Functionality corresponding to dd in vim
     """
     x, y, curr_top = local_state.get_page_state()
+    global_state.add_copy_buffer(
+        [local_state.get_line(curr_top + y)]
+    )
     local_state.remove_line(curr_top + y)
     local_state.set_cursor(0, y)
 

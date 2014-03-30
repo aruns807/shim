@@ -16,7 +16,8 @@ from Backend import interaction_manager
 DEFAULT_MOVEMENTS = command_list.DEFAULT_MOVEMENTS
 DEFAULT_COMMAND_LEADERS = command_list.DEFAULT_COMMAND_LEADERS
 VISUAL_MOVEMENTS = command_list.VISUAL_MOVEMENTS
-BREAK_MOVEMENTS = command_list.BREAK_MOVEMENTS
+DEFAULT_BREAK_MOVEMENTS = command_list.DEFAULT_BREAK_MOVEMENTS
+VISUAL_BREAK_MOVEMENTS = command_list.VISUAL_BREAK_MOVEMENTS
 COMMAND_MAP = command_list.COMMAND_MAP
 
 
@@ -234,8 +235,8 @@ class user_input():
             self.command_buffer += key
             s_par = command_parser.default_parse(self.command_buffer)
 
-            if s_par != '' or key in BREAK_MOVEMENTS:
-                cmd = s_par if s_par != '' else BREAK_MOVEMENTS[key]
+            if s_par != '' or key in DEFAULT_BREAK_MOVEMENTS:
+                cmd = s_par if s_par != '' else DEFAULT_BREAK_MOVEMENTS[key]
                 interaction_manager.input_command(
                     cmd, self._graphics, self.get_curr_instance(), self)
                 self.command_buffer = ''
@@ -290,6 +291,14 @@ class user_input():
                 self.get_curr_instance(), self
             )
             self.command_buffer = ''
+        elif key in VISUAL_BREAK_MOVEMENTS:
+            cmd = VISUAL_BREAK_MOVEMENTS[key]
+            interaction_manager.input_command(
+                cmd, self._graphics,
+                self.get_curr_instance(), self
+            )
+            self.command_buffer = ''
+
 
     def user_key_ex(self, key):
         """
