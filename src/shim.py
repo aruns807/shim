@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 from tkinter import Tk, Image
 from argparse import ArgumentParser
 from Frontend import text_canvas
