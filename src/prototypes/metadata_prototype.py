@@ -1,11 +1,14 @@
 """
 Prototype code for metadata creation
-More design on how metadata should be handled (if it should at all) in shim needs to be done
+More design on how metadata should be handled (if it should at all) in shim
+needs to be done
 """
-import os, json
+import os
+import json
 # BEGIN code-generated list of module imports
 from plugins import fuzzy_file_select_meta
 # END code-generated list of module imports
+
 
 def create_metadata_files():
     for dirname, dirnames, filenames in os.walk(os.getcwd()):

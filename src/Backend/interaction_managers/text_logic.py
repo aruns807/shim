@@ -192,7 +192,6 @@ def get_text_range(px, py, pt, nx, ny, nt, local_state):
     else:
         start, end = (
             (py + pt, ny + nt), (ny + nt, py + pt))[(ny + nt) < (py + pt)]
-        count = 0
         for n in range(start, end + 1):
             if (n == py + pt) and (px, py) == (fx, fy):
                 txt.append(local_state.get_line(n)[:px])

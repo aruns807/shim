@@ -2,9 +2,7 @@
 # Multiple files being open at the same time would correspond to
 # multiple instance classes being open at the same time
 
-import json
 import os
-from copy import deepcopy
 from Backend.State.SyntaxTokens import syntax_parser
 
 
