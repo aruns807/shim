@@ -32,7 +32,6 @@ def move_cursor_end_file(local_state):
     Functionality corresponding to G
     """
     x, y = local_state.get_cursor()
-    curr_top = local_state.get_curr_top()
     local_state.set_curr_top(
         max(0, local_state.get_line_num() - local_state.get_line_height() - 1)
     )
@@ -232,7 +231,6 @@ def move_cursor_move_prev_word_front(local_state):
     """
     curr_top = local_state.get_curr_top()
     x, y = local_state.get_cursor()
-    accept_all = False
 
     # Same as above, I'm pretty sure this can be cleaner.
     curr_str = local_state.get_line(y + curr_top)
@@ -260,7 +258,6 @@ def move_cursor_next_word_end(local_state):
     """
     curr_top = local_state.get_curr_top()
     x, y = local_state.get_cursor()
-    accept_all = False
     curr_str = local_state.get_line(curr_top + y)
 
     for dx in range(x + 2, len(curr_str) - 1):
