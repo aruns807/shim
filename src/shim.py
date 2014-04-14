@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 from tkinter import Tk, Image
 from argparse import ArgumentParser
-from Frontend import text_canvas
-from Backend import user_input
+from frontend import text_canvas
+from backend import user_input
 
 def opt_init():
     parser = ArgumentParser(description='A vim inspired text editor')

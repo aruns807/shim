@@ -7,7 +7,7 @@
 from tkinter import Tk, Canvas, BOTH
 from tkinter.ttk import Frame
 import tkinter.font as tkFont
-from Frontend.color_config import options
+from frontend.color_config import options
 
 class text_canvas(Frame):
 

@@ -9,7 +9,7 @@
 from pygments import lex
 from pygments.lexers import get_lexer_for_filename, get_lexer_by_name
 from pygments.token import Token
-from Backend.State.SyntaxTokens.color_config import options
+from backend.state.syntaxtokens.color_config import options
 
 class syntax_parser():
 

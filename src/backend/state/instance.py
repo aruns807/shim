@@ -5,7 +5,7 @@
 import json
 import os
 from copy import deepcopy
-from Backend.State.SyntaxTokens import syntax_parser
+from backend.state.syntaxtokens import syntax_parser
 
 
 class instance():

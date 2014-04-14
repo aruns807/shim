@@ -6,7 +6,7 @@
 # This file definitely needs a rewrite
 
 import re
-from Backend import command_list
+from backend import command_list
 
 def goto_line_num(s):
     ind = s.find('gg')
