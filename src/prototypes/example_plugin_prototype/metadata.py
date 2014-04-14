@@ -1,4 +1,5 @@
-import os, json
+import os
+
 
 def write_data(dirname, file_data, dir_info):
     paths = []
@@ -10,6 +11,8 @@ def write_data(dirname, file_data, dir_info):
 
     for path in paths:
         try:
-            file_data['fuzzy_file_select'][os.path.relpath(path, dirname)] = path
+            file_data['fuzzy_file_select'][os.path.relpath(path,
+                                                           dirname)] = path
         except KeyError:
-            file_data['fuzzy_file_select'] = { os.path.relpath(path, dirname): path }
+            file_data['fuzzy_file_select'] = {
+                os.path.relpath(path, dirname): path}

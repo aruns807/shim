@@ -4,9 +4,10 @@ More design on how plugin code should be handled in shim needs to be done
 """
 
 from optparse import OptionParser
-import sys, os
+import os
 
 parser = OptionParser()
+
 
 # option parsing logic, adds options for names and group information
 def opt_init():
@@ -41,7 +42,7 @@ def add_plugin_code(lines, add_map, stop_list):
             add_s = add_map[lines[i]]
         elif lines[i] in stop_list:
             add_s = None
-        if add_s != None:
+        if add_s is not None:
             lines.insert(i, add_s)
 
 
@@ -50,20 +51,24 @@ def add_plugin_code(lines, add_map, stop_list):
 def fill_metadata_loader(dir_name, package_name):
     fn = package_name + '_meta.py'
 
-    with open(os.path.join(dir_name, 'metadata.py') ,'r') as c:
+    with open(os.path.join(dir_name, 'metadata.py'), 'r') as c:
         contents = c.read()
         with open(os.path.join('plugins', fn), 'w') as f:
             f.write(contents)
 
     lines = [line for line in open('metadata.py', 'r')]
-    start_dlist = set(['# END code-generated list of module imports\n', '        # END code-generated list of modules to call write_data\n'])
-    end_dlist = set(['# BEGIN code-generated list of module imports\n', '        # BEGIN code-generated list of modules to call write_data\n'])
+    start_dlist = set([
+        '# END code-generated list of module imports\n',
+        '        # END code-generated list of modules to call write_data\n'])
+    end_dlist = set([
+        '# BEGIN code-generated list of module imports\n',
+        '        # BEGIN code-generated list of modules to call write_data\n'])
 
     remove_plugin_code(lines, start_dlist, end_dlist)
     ipn = package_name + '_meta'
 
     add_map = {
-        '# END code-generated list of module imports\n': 'from plugins import %s\n' %  (ipn),
+        '# END code-generated list of module imports\n': 'from plugins import %s\n' % (ipn),
         '        # END code-generated list of modules to call write_data\n': '        MODULES = [%s]\n' % (ipn),
     }
     stop_list = set(['# BEGIN code-generated list of module imports\n', '        # BEGIN code-generated list of modules to call write_data\n'])
@@ -76,8 +81,12 @@ def fill_metadata_loader(dir_name, package_name):
 
 def fill_interaction_manager(dir_name, package_name):
     lines = [line for line in open('Backend/interaction_manager.py', 'r')]
-    start_dlist = set(['# END PLUGIN DEFINED FUNCTIONS HERE\n', '    # END PLUGIN DEFINED REFERENCES HERE\n'])
-    end_dlist = set(['# BEGIN PLUGIN DEFINED FUNCTIONS HERE\n', '    # BEGIN PLUGIN DEFINED REFERENCES HERE\n'])
+    start_dlist = set([
+        '# END PLUGIN DEFINED FUNCTIONS HERE\n',
+        '    # END PLUGIN DEFINED REFERENCES HERE\n'])
+    end_dlist = set([
+        '# BEGIN PLUGIN DEFINED FUNCTIONS HERE\n',
+        '    # BEGIN PLUGIN DEFINED REFERENCES HERE\n'])
 
     remove_plugin_code(lines, start_dlist, end_dlist)
 
@@ -96,8 +105,12 @@ def fill_interaction_manager(dir_name, package_name):
 
 def fill_user_input(dir_name, package_name):
     lines = [line for line in open('Backend/user_input.py', 'r')]
-    start_dlist = set(['    # END BEGIN PLUGIN DEFINED ROUTING FUNCITONS HERE\n', '        # END MODE CHANGE MAPPINGS HERE\n'])
-    end_dlist = set(['    # BEGIN PLUGIN DEFINED ROUTING FUNCITONS HERE\n', '        # BEGIN MODE CHANGE MAPPINGS HERE\n'])
+    start_dlist = set([
+        '    # END BEGIN PLUGIN DEFINED ROUTING FUNCITONS HERE\n',
+        '        # END MODE CHANGE MAPPINGS HERE\n'])
+    end_dlist = set([
+        '    # BEGIN PLUGIN DEFINED ROUTING FUNCITONS HERE\n',
+        '        # BEGIN MODE CHANGE MAPPINGS HERE\n'])
 
     remove_plugin_code(lines, start_dlist, end_dlist)
 
@@ -108,7 +121,9 @@ def fill_user_input(dir_name, package_name):
         '        # END MODE CHANGE MAPPINGS HERE\n': dictstr
     }
 
-    stop_list = set(['    # BEGIN PLUGIN DEFINED ROUTING FUNCITONS HERE\n', '        # BEGIN MODE CHANGE MAPPINGS HERE\n'])
+    stop_list = set([
+        '    # BEGIN PLUGIN DEFINED ROUTING FUNCITONS HERE\n',
+        '        # BEGIN MODE CHANGE MAPPINGS HERE\n'])
 
     add_plugin_code(lines, add_map, stop_list)
 

@@ -4,10 +4,11 @@
 # TODO: Discuss what kind of functions this class
 # should provide
 
-from tkinter import Tk, Canvas, BOTH
+from tkinter import Canvas, BOTH
 from tkinter.ttk import Frame
 import tkinter.font as tkFont
 from frontend.color_config import options
+
 
 class text_canvas(Frame):
 

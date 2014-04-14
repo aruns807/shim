@@ -1,10 +1,9 @@
 # an attempt to approximate of pygments parser runtime
 from pygments import lex
-from pygments.lexers import get_lexer_for_filename, get_lexer_by_name
+from pygments.lexers import get_lexer_for_filename
 from pygments.token import Token
 from color_config import options
 
-import time
 
 def determine_color(t):
     print(t)
@@ -23,6 +22,8 @@ def determine_color(t):
 
 
 l = get_lexer_for_filename('test.c')
+
+
 def parse(s, l):
     ret_list = []
     start = 0

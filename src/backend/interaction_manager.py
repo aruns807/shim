@@ -3,7 +3,8 @@
 # Events are fed directly from user_input
 # Interaction manager should not have to parse user input keys directly
 import sys
-from backend.interaction_managers import cursor_logic, text_logic, graphics_logic
+from backend.interaction_managers import (
+    cursor_logic, text_logic, graphics_logic)
 
 
 def render_default_graphics(graphics_state, local_state, global_state):

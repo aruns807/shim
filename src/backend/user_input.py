@@ -214,7 +214,6 @@ class user_input():
         self.curr_state = 'Ex'
 
     def init_visual_mode(self):
-        curr_instance = self.get_curr_instance()
         # set once and then never mutate this ever again per visual selection
         self.get_curr_instance().set_visual_anchor()
         self.curr_state = 'Visual'
@@ -298,7 +297,6 @@ class user_input():
                 self.get_curr_instance(), self
             )
             self.command_buffer = ''
-
 
     def user_key_ex(self, key):
         """

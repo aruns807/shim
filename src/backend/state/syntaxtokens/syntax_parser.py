@@ -7,9 +7,10 @@
 # TODO: Make syntax highlighter work for things that aren't python
 
 from pygments import lex
-from pygments.lexers import get_lexer_for_filename, get_lexer_by_name
+from pygments.lexers import get_lexer_for_filename
 from pygments.token import Token
 from backend.state.syntaxtokens.color_config import options
+
 
 class syntax_parser():
 

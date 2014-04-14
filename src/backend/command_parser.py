@@ -1,12 +1,13 @@
 # Command parser logic
 # Logic to parse commands longer than a single character should go here
 # TODO: Implement a proper command parser. The current approach of
-# throwing regexes at the problem will not cut it in the future 
+# throwing regexes at the problem will not cut it in the future
 # when commands get more complex
 # This file definitely needs a rewrite
 
 import re
 from backend import command_list
+
 
 def goto_line_num(s):
     ind = s.find('gg')
@@ -18,7 +19,8 @@ def goto_line_num(s):
 
 
 def seek_char(s):
-    # assumption is that the regex will only return a string of length 2, seems kind of reasonable
+    # assumption is that the regex will only return a string of length 2,
+    # seems kind of reasonable
     return ['c' + s[1], 'move_cursor_seek_char']
 
 
@@ -28,7 +30,8 @@ def repeat_default_movement(s):
 
 
 def delete_text_movement(s):
-    return ['s' + command_list.DEFAULT_MOVEMENTS[s[1:]][0], 'delete_text_movement']
+    return ['s' + command_list.DEFAULT_MOVEMENTS[s[1:]][0],
+            'delete_text_movement']
 
 
 def delete_curr_line(s):
@@ -69,8 +72,8 @@ def default_parse(s):
     return ''
 
 
-VISUAL_COMMAND_MAP = {
-                     }
+VISUAL_COMMAND_MAP = {}
+
 
 def visual_parse(s):
     for r, func in list(VISUAL_COMMAND_MAP.items()):
@@ -81,18 +84,18 @@ def visual_parse(s):
 
 
 EX_COMMAND_MAP = {
-                     re.compile('q'): quit,
-                     re.compile('w'): write
-                 }
+    re.compile('q'): quit,
+    re.compile('w'): write
+}
+
 
 def ex_parse(s):
     """
-    TODO(mentioned above): this won't work for actual commands because of the overlap. Figure out a smarter way to do this please
+    TODO(mentioned above): this won't work for actual commands because of the
+    overlap. Figure out a smarter way to do this please
     """
     for r, func in list(EX_COMMAND_MAP.items()):
         s_par = r.search(s)
         if bool(s_par):
             return func(s_par.group())
     return ''
-
-
