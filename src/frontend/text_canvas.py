@@ -20,7 +20,7 @@ class text_canvas(Frame):
         )
         self.filename = filename
         self.cheight, self.cwidth = font_size, self.text_font.measure('c')
-        self.line_num_spacing = 50
+        self.line_num_spacing = (self.get_num_spacing() * self.cwidth) + 20
         self.line_height = (
             (self.winfo_screenheight() - self.cheight)//(self.cheight + 2) - 4
         )
@@ -44,6 +44,10 @@ class text_canvas(Frame):
             'screen_width': self.winfo_screenwidth(),
             'screen_height': self.winfo_screenheight()
         }
+
+    def get_num_spacing(self):
+        n = sum(1 for line in open(self.filename))
+        return len(str(n))
 
     def init_canvas(self, input_handler):
         self.canvas = Canvas(
@@ -126,7 +130,7 @@ class text_canvas(Frame):
         textcolor=options['line_num_text_color']
     ):
         self.canvas.create_rectangle(
-            0, 0, self.line_num_spacing / 2,
+            0, 0, self.line_num_spacing - 20,
             self.winfo_screenheight(),
             fill=highlightcolor, outline=highlightcolor
         )
