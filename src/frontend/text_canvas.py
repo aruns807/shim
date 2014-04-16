@@ -14,20 +14,20 @@ class text_canvas(Frame):
 
     def __init__(self, parent, font_size, input_handler, filename):
         Frame.__init__(self, parent)
-        self.parent = parent
-        self.text_font = tkFont.Font(
+        self._parent = parent
+        self._text_font = tkFont.Font(
             family='Monaco', size=font_size, weight='bold'
         )
-        self.filename = filename
-        self.cheight, self.cwidth = font_size, self.text_font.measure('c')
-        self.line_num_spacing = (self.get_num_spacing() * self.cwidth) + 20
-        self.line_height = (
-            (self.winfo_screenheight() - self.cheight)//(self.cheight + 2) - 4
+        self._filename = filename
+        self._cheight, self._cwidth = font_size, self._text_font.measure('c')
+        self._line_num_spacing = (self.get_num_spacing() * self._cwidth) + 20
+        self._line_height = (
+            (self.winfo_screenheight() - self._cheight)//(self._cheight + 2) - 4
         )
         self.init_UI(input_handler)
 
     def init_UI(self, input_handler):
-        self.parent.title('')
+        self._parent.title('')
         self.pack(fill=BOTH, expand=1)
         self.init_canvas(input_handler)
 
@@ -37,42 +37,45 @@ class text_canvas(Frame):
         for plugin writers
         """
         return {
-            'cheight': self.cheight,
-            'cwidth': self.cwidth,
-            'line_num_spacing': self.line_num_spacing,
-            'line_height': self.line_height,
+            'cheight': self._cheight,
+            'cwidth': self._cwidth,
+            'line_num_spacing': self._line_num_spacing,
+            'line_height': self._line_height,
             'screen_width': self.winfo_screenwidth(),
             'screen_height': self.winfo_screenheight()
         }
 
     def get_num_spacing(self):
-        n = sum(1 for line in open(self.filename))
+        n = sum(1 for line in open(self._filename))
         return len(str(n))
 
+    def get_line_height(self):
+        return self._line_height
+
     def init_canvas(self, input_handler):
-        self.canvas = Canvas(
+        self._canvas = Canvas(
             self, highlightthickness=0, width=self.winfo_screenwidth(),
             height=self.winfo_screenheight(), bg=options['background_color']
         )
-        self.canvas.pack()
-        self.canvas.focus_set()
+        self._canvas.pack()
+        self._canvas.focus_set()
         self.bind_events(input_handler)
 
     def clear_all(self):
-        self.canvas.delete('all')
+        self._canvas.delete('all')
 
     def get_line_height(self):
         """
         return number of lines per page
         """
-        return self.line_height
+        return self._line_height
 
     def get_grid_y(self, y):
         """
         return character height * y
         in addition distane of the spaces inbetwen
         """
-        return self.cheight * y + (y * 2)
+        return self._cheight * y + (y * 2)
 
     def write_line_grid(self, y, line):
         """
@@ -85,11 +88,11 @@ class text_canvas(Frame):
         """
         Write text to x, y location on grid
         """
-        x_val = self.cwidth * x + self.line_num_spacing
-        y_val = self.cheight * y + (y * 2)  # 2 pixel spacing between each line
-        self.canvas.create_text(
+        x_val = self._cwidth * x + self._line_num_spacing
+        y_val = self._cheight * y + (y * 2)  # 2 pixel spacing between each line
+        self._canvas.create_text(
             x_val, y_val, anchor='nw', text=text,
-            font=self.text_font, fill=color
+            font=self._text_font, fill=color
         )
 
     def write_status_line(
@@ -100,13 +103,13 @@ class text_canvas(Frame):
         Writen a line of text to status line
         this function could take in different data if desired
         """
-        y = self.line_height + 1
-        self.canvas.create_rectangle(
-            0, self.cheight * y + (y * 2), self.winfo_screenwidth(),
-            self.cheight * y + (y * 2) + self.cheight + 4,
+        y = self._line_height + 1
+        self._canvas.create_rectangle(
+            0, self._cheight * y + (y * 2), self.winfo_screenwidth(),
+            self._cheight * y + (y * 2) + self._cheight + 4,
             fill=backgroundcolor, outline=backgroundcolor
         )
-        self.write_text_grid(0, self.line_height + 1, text, textcolor)
+        self.write_text_grid(0, self._line_height + 1, text, textcolor)
 
     def draw_highlight_grid(
         self, y, x1, x2,
@@ -116,11 +119,11 @@ class text_canvas(Frame):
         Draw highlights onto text canvas
         i.e selections during visual mode
         """
-        y_val = self.cheight * y + (y * 2)
-        x1_val = self.cwidth * x1 + self.line_num_spacing
-        x2_val = self.cwidth * x2 + self.line_num_spacing
-        self.canvas.create_rectangle(
-            x1_val, y_val, x2_val, y_val + self.cheight + 4,
+        y_val = self._cheight * y + (y * 2)
+        x1_val = self._cwidth * x1 + self._line_num_spacing
+        x2_val = self._cwidth * x2 + self._line_num_spacing
+        self._canvas.create_rectangle(
+            x1_val, y_val, x2_val, y_val + self._cheight + 4,
             fill=highlightcolor, outline=highlightcolor
         )
 
@@ -129,15 +132,15 @@ class text_canvas(Frame):
         highlightcolor=options['line_num_highlight_color'],
         textcolor=options['line_num_text_color']
     ):
-        self.canvas.create_rectangle(
-            0, 0, self.line_num_spacing - 20,
+        self._canvas.create_rectangle(
+            0, 0, self._line_num_spacing - 20,
             self.winfo_screenheight(),
             fill=highlightcolor, outline=highlightcolor
         )
-        for i in range(self.line_height + 1):
-            self.canvas.create_text(
-                0, self.cheight * i + (i * 2), anchor='nw',
-                text=str(start + i), font=self.text_font,
+        for i in range(self._line_height + 1):
+            self._canvas.create_text(
+                0, self._cheight * i + (i * 2), anchor='nw',
+                text=str(start + i), font=self._text_font,
                 fill=textcolor
             )
 
@@ -151,22 +154,22 @@ class text_canvas(Frame):
         TODO: users should have the option to disable line
         and column highlights
         """
-        x_val = self.cwidth * x + self.line_num_spacing
-        y_val = self.cheight * y + (y * 2)
+        x_val = self._cwidth * x + self._line_num_spacing
+        y_val = self._cheight * y + (y * 2)
 
-        self.canvas.create_rectangle(
+        self._canvas.create_rectangle(
             0, y_val, self.winfo_screenwidth(),
-            y_val + self.cheight + 4,
+            y_val + self._cheight + 4,
             fill=highlightcolor, outline=highlightcolor
         )
-        self.canvas.create_rectangle(
-            x_val, 0, x_val + self.cwidth,
+        self._canvas.create_rectangle(
+            x_val, 0, x_val + self._cwidth,
             self.winfo_screenheight(), fill=highlightcolor,
             outline=highlightcolor
         )
-        self.canvas.create_rectangle(
-            x_val, y_val, x_val + self.cwidth,
-            y_val + self.cheight + 4,
+        self._canvas.create_rectangle(
+            x_val, y_val, x_val + self._cwidth,
+            y_val + self._cheight + 4,
             fill=cursorcolor, outline=cursorcolor
         )
 
@@ -178,7 +181,7 @@ class text_canvas(Frame):
         TODO: flesh out what this function should actually
         look like
         """
-        self.canvas.create_rectangle(
+        self._canvas.create_rectangle(
             x1, y1, x2, y2,
             fill=color, outline=color
         )
@@ -189,38 +192,38 @@ class text_canvas(Frame):
         TODO: this should be cleaned up ideally into a separate handler list
         """
         input_handler.set_GUI_reference(self)
-        self.canvas.bind('<Key>', input_handler.key)
-        self.canvas.bind_all('<Escape>', input_handler.escape)
-        self.canvas.bind_all('<Control-a>', input_handler.control_a)
-        self.canvas.bind_all('<Control-b>', input_handler.control_b)
-        self.canvas.bind_all('<Control-c>', input_handler.control_c)
-        self.canvas.bind_all('<Control-d>', input_handler.control_d)
-        self.canvas.bind_all('<Control-e>', input_handler.control_e)
-        self.canvas.bind_all('<Control-f>', input_handler.control_f)
-        self.canvas.bind_all('<Control-g>', input_handler.control_g)
-        self.canvas.bind_all('<Control-h>', input_handler.control_h)
-        self.canvas.bind_all('<Control-i>', input_handler.control_i)
-        self.canvas.bind_all('<Control-j>', input_handler.control_j)
-        self.canvas.bind_all('<Control-k>', input_handler.control_k)
-        self.canvas.bind_all('<Control-l>', input_handler.control_l)
-        self.canvas.bind_all('<Control-m>', input_handler.control_m)
-        self.canvas.bind_all('<Control-n>', input_handler.control_n)
-        self.canvas.bind_all('<Control-o>', input_handler.control_o)
-        self.canvas.bind_all('<Control-p>', input_handler.control_p)
-        self.canvas.bind_all('<Control-q>', input_handler.control_q)
-        self.canvas.bind_all('<Control-r>', input_handler.control_r)
-        self.canvas.bind_all('<Control-s>', input_handler.control_s)
-        self.canvas.bind_all('<Control-t>', input_handler.control_t)
-        self.canvas.bind_all('<Control-u>', input_handler.control_u)
-        self.canvas.bind_all('<Control-v>', input_handler.control_v)
-        self.canvas.bind_all('<Control-w>', input_handler.control_w)
-        self.canvas.bind_all('<Control-x>', input_handler.control_x)
-        self.canvas.bind_all('<Control-y>', input_handler.control_y)
-        self.canvas.bind_all('<Control-z>', input_handler.control_z)
-        self.canvas.bind_all("<MouseWheel>", input_handler.mouse_scroll)
-        self.canvas.bind_all(
+        self._canvas.bind('<Key>', input_handler.key)
+        self._canvas.bind_all('<Escape>', input_handler.escape)
+        self._canvas.bind_all('<Control-a>', input_handler.control_a)
+        self._canvas.bind_all('<Control-b>', input_handler.control_b)
+        self._canvas.bind_all('<Control-c>', input_handler.control_c)
+        self._canvas.bind_all('<Control-d>', input_handler.control_d)
+        self._canvas.bind_all('<Control-e>', input_handler.control_e)
+        self._canvas.bind_all('<Control-f>', input_handler.control_f)
+        self._canvas.bind_all('<Control-g>', input_handler.control_g)
+        self._canvas.bind_all('<Control-h>', input_handler.control_h)
+        self._canvas.bind_all('<Control-i>', input_handler.control_i)
+        self._canvas.bind_all('<Control-j>', input_handler.control_j)
+        self._canvas.bind_all('<Control-k>', input_handler.control_k)
+        self._canvas.bind_all('<Control-l>', input_handler.control_l)
+        self._canvas.bind_all('<Control-m>', input_handler.control_m)
+        self._canvas.bind_all('<Control-n>', input_handler.control_n)
+        self._canvas.bind_all('<Control-o>', input_handler.control_o)
+        self._canvas.bind_all('<Control-p>', input_handler.control_p)
+        self._canvas.bind_all('<Control-q>', input_handler.control_q)
+        self._canvas.bind_all('<Control-r>', input_handler.control_r)
+        self._canvas.bind_all('<Control-s>', input_handler.control_s)
+        self._canvas.bind_all('<Control-t>', input_handler.control_t)
+        self._canvas.bind_all('<Control-u>', input_handler.control_u)
+        self._canvas.bind_all('<Control-v>', input_handler.control_v)
+        self._canvas.bind_all('<Control-w>', input_handler.control_w)
+        self._canvas.bind_all('<Control-x>', input_handler.control_x)
+        self._canvas.bind_all('<Control-y>', input_handler.control_y)
+        self._canvas.bind_all('<Control-z>', input_handler.control_z)
+        self._canvas.bind_all("<MouseWheel>", input_handler.mouse_scroll)
+        self._canvas.bind_all(
             '<Control-braceright>', input_handler.control_braceright
         )
-        self.canvas.bind_all(
+        self._canvas.bind_all(
             '<Control-braceleft>', input_handler.control_braceleft
         )

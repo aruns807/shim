@@ -38,7 +38,7 @@ class user_input():
         """
         self._graphics = canvas
         self.instances[self.curr_instance].set_line_height(
-            self._graphics.line_height)
+            self._graphics.get_line_height())
         interaction_manager.render_page(
             [], [], self._graphics,
             self.get_curr_instance(), self)
