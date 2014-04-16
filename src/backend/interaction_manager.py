@@ -24,8 +24,8 @@ def render_default_graphics(graphics_state, local_state, global_state):
             break
     x, y, t = local_state.get_page_state()
     status_line = 'file: %s  |  mode: %s  |  %d, %d | command buffer: %s' % \
-        (local_state.get_filename(), global_state.curr_state, x, y + t,
-            global_state.command_buffer)
+        (local_state.get_filename(), global_state.get_curr_state(), x, y + t,
+            global_state.get_command_buffer())
     graphics_state.write_status_line(status_line)
 
 
@@ -218,13 +218,13 @@ def delete_text_highlight(graphics_state, local_state, global_state):
     TODO: In the visual mode case this adds the deleted text to the copy buffer
     This should be mirrored in the non visual mode case
     """
-    if global_state.curr_state == 'Visual':
+    if global_state.get_curr_state() == 'Visual':
         px, py, pt = local_state.get_visual_anchors()
         nx, ny, nt = local_state.get_page_state()
         txt = text_logic.get_text_range(px, py, pt, nx, ny, nt, local_state)
         global_state.add_copy_buffer(txt)
         text_logic.delete_text_range(px, py, pt, nx, ny, nt, local_state)
-        global_state.curr_state = 'Default'
+        global_state.set_curr_state('Default')
     else:
         text_logic.delete_text_highlight(local_state)
 
@@ -243,7 +243,7 @@ def insert_new_line_above(graphics_state, local_state, global_state):
     """
     Functionality corresponding to O in vim
     """
-    global_state.curr_state = 'Insert'
+    global_state.set_curr_state('Insert')
     text_logic.insert_new_line_above(local_state)
     render_page([], [], graphics_state, local_state, global_state)
 
@@ -252,7 +252,7 @@ def insert_new_line_below(graphics_state, local_state, global_state):
     """
     Functionality corresponding to o in vim
     """
-    global_state.curr_state = 'Insert'
+    global_state.set_curr_state('Insert')
     text_logic.insert_new_line_below(local_state)
     render_page([], [], graphics_state, local_state, global_state)
 
@@ -261,7 +261,7 @@ def insert_end_of_line(graphics_state, local_state, global_state):
     """
     Functionality corresponding to A in vim
     """
-    global_state.curr_state = 'Insert'
+    global_state.set_curr_state('Insert')
     cursor_logic.move_cursor_past_end_line(local_state)
     render_page([], [], graphics_state, local_state, global_state)
 
@@ -287,7 +287,7 @@ def visual_movement(motion, graphics_state, local_state, global_state):
     """
     COMMAND_MAP[motion](graphics_state, local_state, global_state)
     # some commands break out of visual mode
-    if global_state.curr_state == 'Visual':
+    if global_state.get_curr_state() == 'Visual':
         f = lambda: graphics_logic.highlight_visual_mode(
             graphics_state, local_state
         )
@@ -385,7 +385,7 @@ def visual_yank(graphics_state, local_state, global_state):
     nx, ny, nt = local_state.get_page_state()
     txt = text_logic.get_text_range(px, py, pt, nx, ny, nt, local_state)
     global_state.add_copy_buffer(txt)
-    global_state.curr_state = 'Default'
+    global_state.set_curr_state('Default')
     render_page([], [], graphics_state, local_state, global_state)
 
 

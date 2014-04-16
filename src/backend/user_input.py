@@ -25,11 +25,11 @@ class user_input():
 
     def __init__(self):
         self._graphics = None
-        self.curr_state, self.command_buffer = 'Default', ''
-        self.instances, self.copy_buffer, self.curr_instance = [], [], 0
+        self._curr_state, self._command_buffer = 'Default', ''
+        self._instances, self._copy_buffer, self._curr_instance = [], [], 0
 
     def start_instance(self, filename):
-        self.instances.append(instance.instance(filename))
+        self._instances.append(instance.instance(filename))
 
     def set_GUI_reference(self, canvas):
         """
@@ -37,35 +37,44 @@ class user_input():
         This should really only be done once per instace
         """
         self._graphics = canvas
-        self.instances[self.curr_instance].set_line_height(
+        self._instances[self._curr_instance].set_line_height(
             self._graphics.get_line_height())
         interaction_manager.render_page(
             [], [], self._graphics,
             self.get_curr_instance(), self)
 
+    def set_curr_state(self, s):
+        self._curr_state = s
+
     def add_copy_buffer(self, l):
-        self.copy_buffer = l
+        self._copy_buffer = l
 
     def get_curr_instance(self):
-        return self.instances[self.curr_instance]
+        return self._instances[self._curr_instance]
 
     def get_copy_buffer(self):
-        return self.copy_buffer
+        return self._copy_buffer
+
+    def get_curr_state(self):
+        return self._curr_state
+
+    def get_command_buffer(self):
+        return self._command_buffer
 
     def go_next_instance(self):
         """
         Go to next instance if there is one available
         """
-        if self.curr_instance < len(self.instances) - 1:
-            self.curr_instance += 1
+        if self._curr_instance < len(self._instances) - 1:
+            self._curr_instance += 1
             self.set_GUI_reference(self._graphics)
 
     def go_prev_instance(self):
         """
         Go to previous instance if there is one available
         """
-        if self.curr_instance > 0:
-            self.curr_instance -= 1
+        if self._curr_instance > 0:
+            self._curr_instance -= 1
             self.set_GUI_reference(self._graphics)
 
     def is_digit(self, k):
@@ -171,10 +180,10 @@ class user_input():
         self.user_key_pressed('<Control-braceleft>')
 
     def escape(self, event):
-        self.curr_state = 'Default'
-        self.command_buffer = ''
+        self._curr_state = 'Default'
+        self._command_buffer = ''
         interaction_manager.render_page(
-            [], [], self._graphics, self.instances[self.curr_instance], self)
+            [], [], self._graphics, self._instances[self._curr_instance], self)
 
     def mouse_scroll(self, event):
         """
@@ -185,8 +194,8 @@ class user_input():
         is inefficient
         """
         delta = event.delta * -1
-        self.curr_state = 'Default'
-        self.command_buffer = ''
+        self._curr_state = 'Default'
+        self._command_buffer = ''
         cmd = ['n' + str(delta), 'mouse_scroll']
         interaction_manager.input_command(
             cmd, self._graphics, self.get_curr_instance(), None)
@@ -196,27 +205,27 @@ class user_input():
         Main input router. Routes key input to appropriate
         key handlers dependent upon global state
         """
-        if self.curr_state == 'Default':
+        if self._curr_state == 'Default':
             self.user_key_default(key)
-        elif self.curr_state == 'Insert':
+        elif self._curr_state == 'Insert':
             self.user_key_insert(key)
-        elif self.curr_state == 'Visual':
+        elif self._curr_state == 'Visual':
             self.user_key_visual(key)
-        elif self.curr_state == 'Ex':
+        elif self._curr_state == 'Ex':
             self.user_key_ex(key)
-        elif self.curr_state == 'fuzzy_file_selection':
+        elif self._curr_state == 'fuzzy_file_selection':
             self.user_key_fuzzy_file_select(key)
 
     def init_insert_mode(self):
-        self.curr_state = 'Insert'
+        self._curr_state = 'Insert'
 
     def init_ex_mode(self):
-        self.curr_state = 'Ex'
+        self._curr_state = 'Ex'
 
     def init_visual_mode(self):
         # set once and then never mutate this ever again per visual selection
         self.get_curr_instance().set_visual_anchor()
-        self.curr_state = 'Visual'
+        self._curr_state = 'Visual'
 
     def user_key_default(self, key):
         """
@@ -230,22 +239,22 @@ class user_input():
 
         if key in DEFAULT_COMMAND_LEADERS \
             or self.is_digit(key) \
-                or len(self.command_buffer):
-            self.command_buffer += key
-            s_par = command_parser.default_parse(self.command_buffer)
+                or len(self._command_buffer):
+            self._command_buffer += key
+            s_par = command_parser.default_parse(self._command_buffer)
 
             if s_par != '' or key in DEFAULT_BREAK_MOVEMENTS:
                 cmd = s_par if s_par != '' else DEFAULT_BREAK_MOVEMENTS[key]
                 interaction_manager.input_command(
                     cmd, self._graphics, self.get_curr_instance(), self)
-                self.command_buffer = ''
+                self._command_buffer = ''
 
         elif key in DEFAULT_MOVEMENTS:  # default movement requested
             interaction_manager.input_command(
                 DEFAULT_MOVEMENTS[key], self._graphics,
                 self.get_curr_instance(), self
             )
-            self.command_buffer = ''
+            self._command_buffer = ''
         elif key in mode_dict:  # mode change requested
             mode_dict[key]()
 
@@ -289,14 +298,14 @@ class user_input():
                 cmd, self._graphics,
                 self.get_curr_instance(), self
             )
-            self.command_buffer = ''
+            self._command_buffer = ''
         elif key in VISUAL_BREAK_MOVEMENTS:
             cmd = VISUAL_BREAK_MOVEMENTS[key]
             interaction_manager.input_command(
                 cmd, self._graphics,
                 self.get_curr_instance(), self
             )
-            self.command_buffer = ''
+            self._command_buffer = ''
 
     def user_key_ex(self, key):
         """
@@ -310,17 +319,17 @@ class user_input():
         have a proper command parser yet
         """
         if key == 'Return':
-            cmd = command_parser.ex_parse(self.command_buffer)
+            cmd = command_parser.ex_parse(self._command_buffer)
             interaction_manager.input_command(
                 cmd, self._graphics,
                 self.get_curr_instance(), self
             )
-            self.curr_state = 'Default'
-            self.command_buffer = ''
+            self._curr_state = 'Default'
+            self._command_buffer = ''
         else:
-            self.command_buffer = (
-                self.command_buffer + key,
-                self.command_buffer[:-1]
+            self._command_buffer = (
+                self._command_buffer + key,
+                self._command_buffer[:-1]
             )[key == 'BackSpace']
 
             interaction_manager.render_page(
