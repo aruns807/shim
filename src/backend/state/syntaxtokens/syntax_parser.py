@@ -3,7 +3,7 @@
 # Potentially this can be sped up even more
 # if we roll our own syntax parser since
 # there would be no need for parsing each line over and over
-# TODO: Discuss alternatives to this module.
+# TODO: Discuss alternatives to this module. (maybe this might need to be scrapped entirely and rewritten
 # TODO: Make syntax highlighter work for things that aren't python
 
 from pygments import lex
@@ -47,11 +47,11 @@ class syntax_parser():
         """
         if t is Token.Name.Class or t is Token.Name.Function:
             return options['function_name_color']
-        elif t is Token.Keyword:
+        elif t is Token.Keyword or t is Token.Keyword.Declaration:
             return options['keyword_color']
-        elif t is Token.String or t is Token.Literal.String.Interpol:
+        elif t is Token.String or t is Token.Literal.String.Interpol or t is Token.Literal.String.Single:
             return options['string_color']
-        elif t is Token.Comment:
+        elif t is Token.Comment or t is Token.Literal.String.Doc:
             return options['comment_color']
         elif t is Token.Keyword.Namespace:
             return options['namespace_color']
