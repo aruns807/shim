@@ -3,6 +3,7 @@
 # like 'comma': ','
 # This should be able to be manipulated by the user in some fashion
 # to enable custom key mappings and potentially more(design required)
+# TODO: fix hard coded tab width
 
 COMMAND_MAP = {
     'dollar': '$',
@@ -40,6 +41,7 @@ COMMAND_MAP = {
     'Down': '<Down>',
     'Left': '<Left>',
     'Right': '<Right>',
+    'Tab': '    ',
     '<Control-braceright>': '<Control-bracketright>',
     '<Control-braceleft>': '<Control-bracketleft>',
 }
