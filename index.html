@@ -4,7 +4,7 @@
   <head>
     <meta charset='utf-8' />
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Shim : A vim inspired text editor with a different agenda" />
+    <meta name="description" content="Shim : A vim inspired text editor" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -19,7 +19,7 @@
           <a id="forkme_banner" href="https://github.com/swong15/shim">View on GitHub</a>
 
           <h1 id="project_title">Shim</h1>
-          <h2 id="project_tagline">A vim inspired text editor with a different agenda</h2>
+          <h2 id="project_tagline">A vim inspired text editor</h2>
 
             <section id="downloads">
               <a class="zip_download_link" href="https://github.com/swong15/shim/zipball/master">Download this project as a .zip file</a>
@@ -32,44 +32,23 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h3>
-<a name="contributing-to-open-source-is-hard" class="anchor" href="#contributing-to-open-source-is-hard"><span class="octicon octicon-link"></span></a>Contributing to open source is hard.</h3>
+<a name="what-is-shim" class="anchor" href="#what-is-shim"><span class="octicon octicon-link"></span></a>What is shim?</h3>
 
-<p>Contributing to open source is a great learning experience but,</p>
-
-<ul>
-<li>Docs aren't always clear</li>
-<li>How one should go about contributing isn't obvious </li>
-<li>Codebases are gigantic and intimidating...etc.</li>
-</ul><p>See: </p>
-
-<pre><code>https://bugzilla.mozilla.org/buglist.cgi?quicksearch=sw:[good%20first%20bug]
-</code></pre>
-
-<h3>
-<a name="vim-could-be-better" class="anchor" href="#vim-could-be-better"><span class="octicon octicon-link"></span></a>Vim could be better</h3>
-
-<p>Vim is awesome. But: </p>
-
-<ul>
-<li>The learning curve is ridiculous</li>
-<li>Plugins could be better (Install a plugin to manage your plugins? What?)</li>
-<li>It has tons of features that most people don't use (refer to point 1)
-<img src="http://i.imgur.com/VOe71EA.png" alt="Vim is hard">
-</li>
-</ul><h3>
-<a name="lets-make-both-better" class="anchor" href="#lets-make-both-better"><span class="octicon octicon-link"></span></a>Let's make both better!</h3>
-
-<p>No, let's not rewrite Vim.
-Instead, let's make a text editor that: </p>
+<p>It's a text editor that: </p>
 
 <ul>
 <li>Is modal like vim</li>
 <li>Is highly configurable like Vim</li>
 <li>Understands a subset of commonly used vim motions (dw, m[buffer name], etc).</li>
 <li>Has a plugin system that behaves like "real" code (none of that API/scripting stuff)</li>
-</ul><p>Doing so will give people a project that they can both use day to day as well as contribute to (something that I wish I had when I first started with open source). </p>
+</ul><h3>
+<a name="why" class="anchor" href="#why"><span class="octicon octicon-link"></span></a>Why?</h3>
 
-<h3>
+<ul>
+<li>Contributing to open source is hard and I want to make something that is hopefully less intimidating for people to contribute to.</li>
+<li>I highly doubt most people use the full feature set of Vim and creating something that is easier learn / extend could be extremely useful.
+Doing so will give people a project that they can both use day to day as well as contribute to (something that I wish I had when I first started with open source). </li>
+</ul><h3>
 <a name="progress-so-far" class="anchor" href="#progress-so-far"><span class="octicon octicon-link"></span></a>Progress so far</h3>
 
 <p>Some basic vim commands have been implemented
@@ -78,20 +57,10 @@ Instead, let's make a text editor that: </p>
 <p>Development of plugin prototypes have begun and here is an quick and dirty implementation of control p
 <img src="https://raw.github.com/swong15/shim/master/src/images/plugin.gif" alt="plugin gif"></p>
 
-<p>Code before plugin injection:</p>
-
-<p><img src="https://raw.github.com/swong15/shim/master/src/images/Before.png" alt="before"></p>
-
-<p>Code after plugin injection:</p>
-
-<p><img src="https://raw.github.com/swong15/shim/master/src/images/After.png" alt="after"></p>
-
-<p>Plugins are injected directly into the codebase (via a loading script). That way plugins have access to every single state variable in the program. Code specific to each plugin can be segmented into it's own module to prevent naming collisions.</p>
-
 <h3>
 <a name="so-what-next" class="anchor" href="#so-what-next"><span class="octicon octicon-link"></span></a>So what next?</h3>
 
-<p>Unfortunately shim isn't ready to be used yet (I've been working at this for the past week or so and the RSI is starting to kick in).</p>
+<p>Unfortunately shim isn't ready to be used yet </p>
 
 <p>There is still tons of work to be done ! Create a proper unit testing suite, create proper plugin loading logic, tons of design decisions to be made... yada yada. As of right now the repo is just slightly under two thousand lines and there is tons of foundational stuff (everything is tentative and can be changed if desired) that needs to be done so contributing should be extremely straightforward.</p>
 
