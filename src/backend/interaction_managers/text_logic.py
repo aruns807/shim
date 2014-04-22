@@ -1,4 +1,5 @@
 from backend.interaction_managers import cursor_logic
+from backend.command_list import COMMAND_MAP as c_map
 
 
 def insert_text_str(s, local_state):
@@ -87,12 +88,13 @@ def shift_selection_right(local_state):
     """
     px, py, pt = local_state.get_visual_anchors()
     nx, ny, nt = local_state.get_page_state()
+    td = len(c_map['Tab'])
 
     start, end = (
         (py + pt, ny + nt), (ny + nt, py + pt))[(ny + nt) < (py + pt)]
     for n in range(start, end + 1):
         l = local_state.get_line(n)
-        local_state.set_line(n, ' ' * 4 + l)
+        local_state.set_line(n, ' ' * td + l)
 
 
 def shift_selection_left(local_state):
@@ -104,12 +106,13 @@ def shift_selection_left(local_state):
     """
     px, py, pt = local_state.get_visual_anchors()
     nx, ny, nt = local_state.get_page_state()
+    td = len(c_map['Tab'])
 
     start, end = (
         (py + pt, ny + nt), (ny + nt, py + pt))[(ny + nt) < (py + pt)]
     for n in range(start, end + 1):
         l = local_state.get_line(n)
-        local_state.set_line(n, l[:4].strip() + l[4:])
+        local_state.set_line(n, l[:td].strip() + l[td:])
 
 
 def delete_text_char(local_state):
