@@ -29,7 +29,7 @@ def render_default_graphics(graphics_state, local_state, global_state):
     graphics_state.write_status_line(status_line)
 
 
-def render_page(pre, post, graphics_state, local_state, global_state):
+def render_page(graphics_state, local_state, global_state, pre=[], post=[]):
     """
     Clear buffer and and run pre and post graphics mutating functions
     Pre and post should contain a list of lambdas like so:
@@ -51,7 +51,7 @@ def move_left(graphics_state, local_state, global_state):
     Functionality corresponding to h in vim
     """
     cursor_logic.move_cursor_left(local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def move_right(graphics_state, local_state, global_state):
@@ -59,7 +59,7 @@ def move_right(graphics_state, local_state, global_state):
     Functionality corresponding to l in vim
     """
     cursor_logic.move_cursor_right(local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def move_down(graphics_state, local_state, global_state):
@@ -67,7 +67,7 @@ def move_down(graphics_state, local_state, global_state):
     Functionality corresponding to j in vim
     """
     cursor_logic.move_cursor_down(local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def move_up(graphics_state, local_state, global_state):
@@ -75,7 +75,7 @@ def move_up(graphics_state, local_state, global_state):
     Functionality corresponding to k in vim
     """
     cursor_logic.move_cursor_up(local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def move_beginning_line(graphics_state, local_state, global_state):
@@ -83,7 +83,7 @@ def move_beginning_line(graphics_state, local_state, global_state):
     Functionality corresponding to 0 in vim
     """
     cursor_logic.move_cursor_beginning_line(local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def move_end_line(graphics_state, local_state, global_state):
@@ -91,7 +91,7 @@ def move_end_line(graphics_state, local_state, global_state):
     Functionality corresponding to $ in vim
     """
     cursor_logic.move_cursor_end_line(local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def move_next_word_front(graphics_state, local_state, global_state):
@@ -99,7 +99,7 @@ def move_next_word_front(graphics_state, local_state, global_state):
     Functionality corresponding to w in vim
     """
     cursor_logic.move_cursor_next_word_front(local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def move_next_word_end(graphics_state, local_state, global_state):
@@ -107,7 +107,7 @@ def move_next_word_end(graphics_state, local_state, global_state):
     Functionality corresponding to e in vim
     """
     cursor_logic.move_cursor_next_word_end(local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def move_prev_word_front(graphics_state, local_state, global_state):
@@ -115,7 +115,7 @@ def move_prev_word_front(graphics_state, local_state, global_state):
     Functionality corresponding to b in vim
     """
     cursor_logic.move_cursor_move_prev_word_front(local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def move_end_file(graphics_state, local_state, global_state):
@@ -123,7 +123,7 @@ def move_end_file(graphics_state, local_state, global_state):
     Functionality corresponding to G in vim
     """
     cursor_logic.move_cursor_end_file(local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def move_begin_file(graphics_state, local_state, global_state):
@@ -131,7 +131,7 @@ def move_begin_file(graphics_state, local_state, global_state):
     Functionality corresponding to gg in vim
     """
     cursor_logic.move_cursor_begin_file(local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def move_next_paragraph(graphics_state, local_state, global_state):
@@ -139,7 +139,7 @@ def move_next_paragraph(graphics_state, local_state, global_state):
     Functionality corresponding to } in vim
     """
     cursor_logic.move_cursor_next_paragraph(local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def move_prev_paragraph(graphics_state, local_state, global_state):
@@ -147,7 +147,7 @@ def move_prev_paragraph(graphics_state, local_state, global_state):
     Functionality corresponding to { in vim
     """
     cursor_logic.move_cursor_prev_paragraph(local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def move_line_num(n_arg, graphics_state, local_state, global_state):
@@ -156,7 +156,7 @@ def move_line_num(n_arg, graphics_state, local_state, global_state):
     i.e 123gg jumps to line 123
     """
     cursor_logic.move_cursor_line_num(n_arg, local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def move_seek_char(c_arg, graphics_state, local_state, global_state):
@@ -164,12 +164,12 @@ def move_seek_char(c_arg, graphics_state, local_state, global_state):
     Functionality corresponding to f[character] in vim
     """
     cursor_logic.move_cursor_seek_char(c_arg, local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def insert_text(s_arg, graphics_state, local_state, global_state):
     text_logic.insert_text_str(s_arg, local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def delete_char(graphics_state, local_state, global_state):
@@ -177,7 +177,7 @@ def delete_char(graphics_state, local_state, global_state):
     Functionality corresponding to x in vim
     """
     text_logic.delete_text_char(local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def add_new_line(graphics_state, local_state, global_state):
@@ -185,7 +185,7 @@ def add_new_line(graphics_state, local_state, global_state):
     Functionality corresponding to <Return> in vim
     """
     text_logic.add_new_line_char(local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def delete_text_movement(movement, graphics_state, local_state, global_state):
@@ -206,7 +206,7 @@ def delete_text_movement(movement, graphics_state, local_state, global_state):
     nx, ny, nt = local_state.get_page_state()
 
     text_logic.delete_text_range(px, py, pt, nx, ny, nt, local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def delete_text_highlight(graphics_state, local_state, global_state):
@@ -228,7 +228,7 @@ def delete_text_highlight(graphics_state, local_state, global_state):
     else:
         text_logic.delete_text_highlight(local_state)
 
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def delete_curr_line(graphics_state, local_state, global_state):
@@ -236,7 +236,7 @@ def delete_curr_line(graphics_state, local_state, global_state):
     Functionality corresponding to dd in vim
     """
     text_logic.delete_current_line(local_state, global_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def insert_new_line_above(graphics_state, local_state, global_state):
@@ -245,7 +245,7 @@ def insert_new_line_above(graphics_state, local_state, global_state):
     """
     global_state.set_curr_state('Insert')
     text_logic.insert_new_line_above(local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def insert_new_line_below(graphics_state, local_state, global_state):
@@ -254,7 +254,7 @@ def insert_new_line_below(graphics_state, local_state, global_state):
     """
     global_state.set_curr_state('Insert')
     text_logic.insert_new_line_below(local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def insert_end_of_line(graphics_state, local_state, global_state):
@@ -263,7 +263,7 @@ def insert_end_of_line(graphics_state, local_state, global_state):
     """
     global_state.set_curr_state('Insert')
     cursor_logic.move_cursor_past_end_line(local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def mouse_scroll(delta, graphics_state, local_state, global_state):
@@ -275,7 +275,7 @@ def mouse_scroll(delta, graphics_state, local_state, global_state):
     x, y, curr_top = local_state.get_page_state()
     if y + int(delta) + curr_top <= local_state.get_line_num() - 2:
         local_state.set_cursor(x, y + int(delta))
-        render_page([], [], graphics_state, local_state, global_state)
+        render_page(graphics_state, local_state, global_state)
     else:
         move_end_file(graphics_state, local_state, global_state)
 
@@ -291,7 +291,7 @@ def visual_movement(motion, graphics_state, local_state, global_state):
         f = lambda: graphics_logic.highlight_visual_mode(
             graphics_state, local_state
         )
-        render_page([], [f], graphics_state, local_state, global_state)
+        render_page(graphics_state, local_state, global_state, post=[f])
 
 
 def paste(graphics_state, local_state, global_state):
@@ -299,7 +299,7 @@ def paste(graphics_state, local_state, global_state):
     Functionality corresponding to p in vim
     """
     text_logic.insert_copy_buffer(local_state, global_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def yank_curr_line(graphics_state, local_state, global_state):
@@ -317,7 +317,7 @@ def shift_selection_right(graphics_state, local_state, global_state):
     TODO: Discuss whether or not it should remain that way
     """
     text_logic.shift_selection_right(local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def shift_selection_left(graphics_state, local_state, global_state):
@@ -327,7 +327,7 @@ def shift_selection_left(graphics_state, local_state, global_state):
     TODO: Discuss whether or not it should remain that way
     """
     text_logic.shift_selection_left(local_state)
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def quit(graphics_state, local_state, global_state):
@@ -349,7 +349,7 @@ def undo_command(graphics_state, local_state, global_state):
     Functionality corresponding to u in vim
     """
     local_state.undo_state()
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def redo_command(graphics_state, local_state, global_state):
@@ -357,7 +357,7 @@ def redo_command(graphics_state, local_state, global_state):
     Functionality corresponding to <Control-r> in vim
     """
     local_state.redo_state()
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 def move_next_instance_buffer(graphics_state, local_state, global_state):
@@ -386,7 +386,7 @@ def visual_yank(graphics_state, local_state, global_state):
     txt = text_logic.get_text_range(px, py, pt, nx, ny, nt, local_state)
     global_state.add_copy_buffer(txt)
     global_state.set_curr_state('Default')
-    render_page([], [], graphics_state, local_state, global_state)
+    render_page(graphics_state, local_state, global_state)
 
 
 COMMAND_MAP = {

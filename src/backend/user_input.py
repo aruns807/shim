@@ -40,7 +40,7 @@ class user_input():
         self._instances[self._curr_instance].set_line_height(
             self._graphics.get_line_height())
         interaction_manager.render_page(
-            [], [], self._graphics,
+            self._graphics,
             self.get_curr_instance(), self)
 
     def set_curr_state(self, s):
@@ -183,7 +183,7 @@ class user_input():
         self._curr_state = 'Default'
         self._command_buffer = ''
         interaction_manager.render_page(
-            [], [], self._graphics, self._instances[self._curr_instance], self)
+            self._graphics, self._instances[self._curr_instance], self)
 
     def mouse_scroll(self, event):
         """
@@ -333,6 +333,6 @@ class user_input():
             )[key == 'BackSpace']
 
             interaction_manager.render_page(
-                [], [], self._graphics,
+                self._graphics,
                 self.get_curr_instance(), self
             )
