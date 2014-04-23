@@ -7,6 +7,7 @@ import re
 from copy import deepcopy
 from backend import command_list
 from backend.commandparser.default import DEFAULT_COMMAND_TOKENS, DEFAULT_COMMAND_MAP
+from backend.commandparser.ex import EX_COMMAND_TOKENS, EX_COMMAND_MAP
 
 # BEGIN YANKED FUNCTIONS, TODO: CLEAN THIS UP
 def goto_line_num(s):
@@ -49,6 +50,16 @@ def delete_curr_line(s):
 def yank_curr_line(s):
     return ['yank_curr_line']
 
+
+def quit(s):
+    return ['quit']
+
+
+def write(s):
+    return ['write']
+
+def write_and_quit(s):
+    return ['write_and_quit']
 # END YANKED FUNCTIONS, TODO: CLEAN THIS UP
 
 
@@ -60,6 +71,9 @@ COMMAND_MAP = {
     'DELETE_LINE': delete_curr_line,
     'YANK_LINE': yank_curr_line,
     'GO_FILE_BEGIN': go_file_begin,
+    'WRITE': write,
+    'QUIT': quit,
+    'WRITE_AND_QUIT': write_and_quit
 }
 
 
@@ -79,11 +93,21 @@ class token():
         return self.type
 
 
-class default_mode_parser():
+class parser():
 
-    def __init__(self):
-        self._tokens = DEFAULT_COMMAND_TOKENS
-        self._cmds = DEFAULT_COMMAND_MAP
+    def __init__(self, mode):
+        mode_dct ={
+            'default': {
+                'tokens': DEFAULT_COMMAND_TOKENS,
+                'cmds': DEFAULT_COMMAND_MAP,
+            },
+            'ex': {
+                'tokens': EX_COMMAND_TOKENS,
+                'cmds': EX_COMMAND_MAP,
+            },
+        }
+        self._tokens = mode_dct[mode]['tokens']
+        self._cmds = mode_dct[mode]['cmds']
 
     def try_tok_str(self, s):
         matches = []
@@ -91,6 +115,7 @@ class default_mode_parser():
             result = regex.match(s)
             if bool(result):
                 matches.append((result.group(), res))
+
         if not len(matches):
             return False
         return max(matches, key=lambda t: t[0])

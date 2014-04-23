@@ -344,6 +344,11 @@ def write(graphics_state, local_state, global_state):
         f.write(lines)
 
 
+def write_and_quit(graphics_state, local_state, global_state):
+    write(graphics_state, local_state, global_state)
+    quit(graphics_state, local_state, global_state)
+
+
 def undo_command(graphics_state, local_state, global_state):
     """
     Functionality corresponding to u in vim
@@ -404,6 +409,7 @@ COMMAND_MAP = {
     'move_cursor_left': move_left,
     'move_cursor_down': move_down,
     'move_cursor_right': move_right,
+    'write_and_quit': write_and_quit,
     'yank_curr_line': yank_curr_line,
     'visual_movement': visual_movement,
     'delete_curr_line': delete_curr_line,

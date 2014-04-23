@@ -28,7 +28,8 @@ class user_input():
         self._graphics = None
         self._curr_state, self._command_buffer = 'Default', ''
         self._instances, self._copy_buffer, self._curr_instance = [], [], 0
-        self._default_parser = command_parser2.default_mode_parser()
+        self._default_parser = command_parser2.parser('default')
+        self._ex_parser = command_parser2.parser('ex')
 
     def start_instance(self, filename):
         self._instances.append(instance.instance(filename))
@@ -323,7 +324,7 @@ class user_input():
         have a proper command parser yet
         """
         if key == 'Return':
-            cmd = command_parser.ex_parse(self._command_buffer)
+            cmd = self._ex_parser.parse_string(self._command_buffer)
             interaction_manager.input_command(
                 cmd, self._graphics,
                 self.get_curr_instance(), self
