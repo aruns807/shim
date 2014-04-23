@@ -12,6 +12,7 @@ from backend.state import instance
 from backend import command_list
 from backend import command_parser
 from backend import interaction_manager
+from backend.commandparser import command_parser2
 
 DEFAULT_MOVEMENTS = command_list.DEFAULT_MOVEMENTS
 DEFAULT_COMMAND_LEADERS = command_list.DEFAULT_COMMAND_LEADERS
@@ -27,6 +28,7 @@ class user_input():
         self._graphics = None
         self._curr_state, self._command_buffer = 'Default', ''
         self._instances, self._copy_buffer, self._curr_instance = [], [], 0
+        self._default_parser = command_parser2.default_mode_parser()
 
     def start_instance(self, filename):
         self._instances.append(instance.instance(filename))
@@ -241,7 +243,9 @@ class user_input():
             or self.is_digit(key) \
                 or len(self._command_buffer):
             self._command_buffer += key
-            s_par = command_parser.default_parse(self._command_buffer)
+            s_par = self._default_parser.parse_string(
+                self._command_buffer
+            )
 
             if s_par != '' or key in DEFAULT_BREAK_MOVEMENTS:
                 cmd = s_par if s_par != '' else DEFAULT_BREAK_MOVEMENTS[key]
