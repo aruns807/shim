@@ -1,7 +1,7 @@
 # logic for parsing command buffer string and determining commands
 # interfaces with shim through the in the parse_buffer function
 # TODO: currently parser does a greedy scan of possible tokens
-# and selects longest token, this might not actually work.
+# per iteration and selects longest token, this might not actually work.
 # TODO: RENAME THIS FILE COMMAND PARSER IS FULLY OBSOLETE
 import re
 from copy import deepcopy
@@ -49,9 +49,7 @@ def delete_curr_line(s):
 def yank_curr_line(s):
     return ['yank_curr_line']
 
-# BEGIN YANKED FUNCTIONS, TODO: CLEAN THIS UP
-
-
+# END YANKED FUNCTIONS, TODO: CLEAN THIS UP
 
 
 COMMAND_MAP = {
@@ -63,6 +61,7 @@ COMMAND_MAP = {
     'YANK_LINE': yank_curr_line,
     'GO_FILE_BEGIN': go_file_begin,
 }
+
 
 class token():
 
