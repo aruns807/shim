@@ -18,7 +18,7 @@ DEFAULT_COMMAND_TOKENS = {
         'type': 'DELETE_LINE',
         'terminal': True
     },
-    re.compile('[h|j|k|l|\{|\}]'): {
+    re.compile('[h|j|k|l|w|b|\{|\}]'): {
         'type': 'MOVEMENT',
         'terminal': True
     },
