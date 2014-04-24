@@ -10,7 +10,6 @@ import re
 from copy import deepcopy
 from backend.state import instance
 from backend import command_list
-from backend import command_parser
 from backend import interaction_manager
 from backend.commandparser import command_parser2
 
