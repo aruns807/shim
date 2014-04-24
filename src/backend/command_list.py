@@ -49,7 +49,7 @@ COMMAND_MAP = {
 
 DEFAULT_MOVEMENTS = {
     'p': ['paste'],
-    'u': ['undo_command'],
+    # 'u': ['undo_command'],
     'k': ['move_cursor_up'],
     'h': ['move_cursor_left'],
     'j': ['move_cursor_down'],
@@ -64,7 +64,7 @@ DEFAULT_MOVEMENTS = {
     'O': ['insert_new_line_above'],
     'o': ['insert_new_line_below'],
     'x': ['delete_text_highlight'],
-    '<Control-r>': ['redo_command'],
+    # '<Control-r>': ['redo_command'],
     'gg': ['move_cursor_begin_file'],
     'e': ['move_cursor_next_word_end'],
     '}': ['move_cursor_next_paragraph'],

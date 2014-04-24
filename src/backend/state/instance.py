@@ -199,7 +199,7 @@ class instance():
             'last_addition': index,
         }
 
-        self.add_to_undo_buffer(('+', index, d))
+        # self.add_to_undo_buffer(('+', index, d))
         self._lines.insert(index, line)
         self._line_tokens.insert(index, self._parser.parse_string(line))
 
@@ -213,7 +213,7 @@ class instance():
             'line_tokens': [self._line_tokens[index]],
             'state': self.get_page_state(),
         }
-        self.add_to_undo_buffer(('-', index, d))
+        # self.add_to_undo_buffer(('-', index, d))
         self._lines.pop(index)
         self._line_tokens.pop(index)
 
@@ -242,7 +242,7 @@ class instance():
             'state': self.get_page_state()
         }
 
-        self.add_to_undo_buffer(('m', ind, d))
+        # self.add_to_undo_buffer(('m', ind, d))
         self._lines[ind] = s
         self._line_tokens[ind] = parsed
 
