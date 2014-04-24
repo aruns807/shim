@@ -11,7 +11,7 @@ from copy import deepcopy
 from backend.state import instance
 from backend import command_list
 from backend import interaction_manager
-from backend.commandparser import command_parser2
+from backend.commandparser import command_parser
 
 DEFAULT_MOVEMENTS = command_list.DEFAULT_MOVEMENTS
 DEFAULT_COMMAND_LEADERS = command_list.DEFAULT_COMMAND_LEADERS
@@ -27,8 +27,8 @@ class user_input():
         self._graphics = None
         self._curr_state, self._command_buffer = 'Default', ''
         self._instances, self._copy_buffer, self._curr_instance = [], [], 0
-        self._default_parser = command_parser2.parser('default')
-        self._ex_parser = command_parser2.parser('ex')
+        self._default_parser = command_parser.parser('default')
+        self._ex_parser = command_parser.parser('ex')
 
     def start_instance(self, filename):
         self._instances.append(instance.instance(filename))
