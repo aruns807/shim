@@ -6,8 +6,8 @@
 import re
 from copy import deepcopy
 from backend import command_list
-from backend.commandparser.default import DEFAULT_COMMAND_TOKENS, DEFAULT_COMMAND_MAP
-from backend.commandparser.ex import EX_COMMAND_TOKENS, EX_COMMAND_MAP
+from backend.commandparser.default_cmds import DEFAULT_COMMAND_TOKENS, DEFAULT_COMMAND_MAP
+from backend.commandparser.ex_cmds import EX_COMMAND_TOKENS, EX_COMMAND_MAP
 
 # BEGIN YANKED FUNCTIONS, TODO: CLEAN THIS UP
 def goto_line_num(s):
