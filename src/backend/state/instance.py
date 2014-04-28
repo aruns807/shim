@@ -25,6 +25,7 @@ class instance():
         self._cursor_x, self._cursor_y, self._curr_top = 0, 0, 0
         self._visual_x, self._visual_y, self._visual_curr_top = 0, 0, 0
         self._undo_buffer, self._undo_index = [], -1
+        self._marks = {}
 
     def check_repeat_additions(self, diff, last_state):
         return (
@@ -176,6 +177,9 @@ class instance():
 
     def get_visual_anchors(self):
         return self._visual_x, self._visual_y, self._visual_curr_top
+
+    def set_mark(self, buf, loc):
+        self._marks[buf] = loc
 
     def add_line(self, index, line):
         """

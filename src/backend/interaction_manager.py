@@ -394,6 +394,12 @@ def visual_yank(graphics_state, local_state, global_state):
     render_page(graphics_state, local_state, global_state)
 
 
+def mark_location(buf, graphics_state, local_state, global_state):
+    x, y, curr_top = local_state.get_page_state()
+    loc = (x, y, curr_top)
+    local_state.set_mark(buf, loc)
+
+
 COMMAND_MAP = {
     'quit': quit,
     'write': write,
@@ -408,6 +414,7 @@ COMMAND_MAP = {
     'add_new_line': add_new_line,
     'move_cursor_left': move_left,
     'move_cursor_down': move_down,
+    'mark_location': mark_location,
     'move_cursor_right': move_right,
     'write_and_quit': write_and_quit,
     'yank_curr_line': yank_curr_line,

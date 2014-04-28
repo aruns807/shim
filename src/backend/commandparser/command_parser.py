@@ -63,8 +63,8 @@ def write_and_quit(s):
 # END YANKED FUNCTIONS, TODO: CLEAN THIS UP
 
 def mark_position(s):
-    print('mark command entered %s' % (s))
-    return ['quit']
+    buf = s[-1]
+    return ['c' + buf, 'mark_location']
 
 
 COMMAND_MAP = {
