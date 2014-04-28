@@ -3,11 +3,9 @@ import re
 EX_COMMAND_TOKENS = {
     re.compile('w'): {
         'type':'WRITE',
-        'terminal': False
     },
     re.compile('q'): {
         'type':'QUIT',
-        'terminal': False
     },
 }
 
