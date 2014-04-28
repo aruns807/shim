@@ -62,6 +62,10 @@ def write_and_quit(s):
     return ['write_and_quit']
 # END YANKED FUNCTIONS, TODO: CLEAN THIS UP
 
+def mark_position(s):
+    print('mark command entered %s' % (s))
+    return ['quit']
+
 
 COMMAND_MAP = {
     'JUMP_LINE_NUM': goto_line_num,
@@ -73,7 +77,8 @@ COMMAND_MAP = {
     'GO_FILE_BEGIN': go_file_begin,
     'WRITE': write,
     'QUIT': quit,
-    'WRITE_AND_QUIT': write_and_quit
+    'WRITE_AND_QUIT': write_and_quit,
+    'MARK_POSITION': mark_position
 }
 
 

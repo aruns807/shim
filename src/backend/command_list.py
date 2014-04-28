@@ -77,7 +77,7 @@ DEFAULT_MOVEMENTS = {
 }
 
 
-DEFAULT_COMMAND_LEADERS = set(['g', 'f', 'd', 'y'])
+DEFAULT_COMMAND_LEADERS = set(['g', 'f', 'd', 'y', 'm'])
 
 
 VISUAL_MOVEMENTS = {

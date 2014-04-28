@@ -23,6 +23,9 @@ DEFAULT_COMMAND_TOKENS = {
     re.compile('gg'): {
         'type': 'GO_TO_LINE_NUM',
     },
+    re.compile('m[a-z]'): {
+        'type': 'MARK_POSITION',
+    }
 }
 
 
@@ -35,4 +38,5 @@ DEFAULT_COMMAND_MAP = {
     'DELETE_LINE': 'DELETE_LINE',
     'NUMBER|DELETE_LINE': 'DELETE_LINE_REPEAT',
     'NUMBER|MOVEMENT': 'REPEAT_MOVEMENT',
+    'MARK_POSITION': 'MARK_POSITION',
 }
