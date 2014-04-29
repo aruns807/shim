@@ -402,8 +402,8 @@ def mark_location(buf, graphics_state, local_state, global_state):
 
 def jump_location(buf, graphics_state, local_state, global_state):
     loc = local_state.get_mark(buf)
-    (x, y, top) = loc
     if loc:
+        (x, y, top) = loc
         local_state.set_cursor(x, y)
         local_state.set_curr_top(top)
         render_page(graphics_state, local_state, global_state)

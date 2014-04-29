@@ -142,13 +142,18 @@ class parser():
         result = []
         has_match = True
         os, cs = deepcopy(s), deepcopy(s)
+
         while has_match:
             match = self.try_tok_str(cs)
-            result.append(
-                token(match[1]['type'], match[0])
-            )
-            cs = cs[len(match[0]):]
-            has_match = self.try_tok_str(cs)
+            if match:
+                result.append(
+                    token(match[1]['type'], match[0])
+                )
+                cs = cs[len(match[0]):]
+                has_match = self.try_tok_str(cs)
+            else:
+                break
+
         cmd = self.try_cmd_match(result)
         if cmd != None:
             return COMMAND_MAP[cmd](os)
