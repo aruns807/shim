@@ -400,6 +400,15 @@ def mark_location(buf, graphics_state, local_state, global_state):
     local_state.set_mark(buf, loc)
 
 
+def jump_location(buf, graphics_state, local_state, global_state):
+    loc = local_state.get_mark(buf)
+    (x, y, top) = loc
+    if loc:
+        local_state.set_cursor(x, y)
+        local_state.set_curr_top(top)
+        render_page(graphics_state, local_state, global_state)
+
+
 COMMAND_MAP = {
     'quit': quit,
     'write': write,
@@ -415,6 +424,7 @@ COMMAND_MAP = {
     'move_cursor_left': move_left,
     'move_cursor_down': move_down,
     'mark_location': mark_location,
+    'jump_location': jump_location,
     'move_cursor_right': move_right,
     'write_and_quit': write_and_quit,
     'yank_curr_line': yank_curr_line,

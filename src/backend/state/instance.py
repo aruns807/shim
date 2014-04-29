@@ -178,6 +178,12 @@ class instance():
     def get_visual_anchors(self):
         return self._visual_x, self._visual_y, self._visual_curr_top
 
+    def get_mark(self, buf):
+        if buf in self._marks:
+            return self._marks[buf]
+        else:
+            return None
+
     def set_mark(self, buf, loc):
         self._marks[buf] = loc
 

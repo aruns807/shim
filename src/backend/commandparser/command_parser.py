@@ -67,18 +67,24 @@ def mark_position(s):
     return ['c' + buf, 'mark_location']
 
 
+def jump_mark(s):
+    buf = s[-1]
+    return ['c' + buf, 'jump_location']
+
+
 COMMAND_MAP = {
-    'JUMP_LINE_NUM': goto_line_num,
-    'FIND_CHARACTER': seek_char,
-    'REPEAT_MOVEMENT': repeat_default_movement,
-    'DELETE_MOVEMENT': delete_text_movement,
-    'DELETE_LINE': delete_curr_line,
-    'YANK_LINE': yank_curr_line,
-    'GO_FILE_BEGIN': go_file_begin,
     'WRITE': write,
     'QUIT': quit,
+    'JUMP_MARK': jump_mark,
+    'FIND_CHARACTER': seek_char,
+    'YANK_LINE': yank_curr_line,
+    'JUMP_LINE_NUM': goto_line_num,
+    'MARK_POSITION': mark_position,
+    'GO_FILE_BEGIN': go_file_begin,
+    'DELETE_LINE': delete_curr_line,
     'WRITE_AND_QUIT': write_and_quit,
-    'MARK_POSITION': mark_position
+    'DELETE_MOVEMENT': delete_text_movement,
+    'REPEAT_MOVEMENT': repeat_default_movement,
 }
 
 

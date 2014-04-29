@@ -25,6 +25,9 @@ DEFAULT_COMMAND_TOKENS = {
     },
     re.compile('m[a-z]'): {
         'type': 'MARK_POSITION',
+    },
+    re.compile('\'[a-z]'): {
+        'type': 'JUMP_MARK',
     }
 }
 
@@ -39,4 +42,5 @@ DEFAULT_COMMAND_MAP = {
     'NUMBER|DELETE_LINE': 'DELETE_LINE_REPEAT',
     'NUMBER|MOVEMENT': 'REPEAT_MOVEMENT',
     'MARK_POSITION': 'MARK_POSITION',
+    'JUMP_MARK': 'JUMP_MARK',
 }
