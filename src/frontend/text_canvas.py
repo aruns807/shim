@@ -190,6 +190,9 @@ class text_canvas(Frame):
         """
         bind events for use in input_handler
         TODO: this should be cleaned up ideally into a separate handler list
+        TODO: control commands also emit their corresponding key events. I.E
+        the '<Control-f>' also emits the 'f' key event. That'll cause conflicts
+        between move half page and find character. 
         """
         input_handler.set_GUI_reference(self)
         self._canvas.bind('<Key>', input_handler.key)
