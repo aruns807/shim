@@ -141,7 +141,7 @@ class parser():
     def parse_string(self, s):
         result = []
         has_match = True
-        os, cs = deepcopy(s), deepcopy(s)
+        cs = deepcopy(s)
 
         while has_match:
             match = self.try_tok_str(cs)
@@ -156,6 +156,6 @@ class parser():
 
         cmd = self.try_cmd_match(result)
         if cmd != None:
-            return COMMAND_MAP[cmd](os)
+            return COMMAND_MAP[cmd](s)
         else:
             return ''
