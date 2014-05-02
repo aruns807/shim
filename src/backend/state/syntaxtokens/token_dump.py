@@ -13,6 +13,10 @@ def opt_init():
     parser = ArgumentParser(description='token dump test')
     parser.add_argument(dest='filename', action='store',
                         metavar='FILE', nargs='?')
+    parser.add_argument(
+        '-out', dest='out', nargs='?',
+        default=None
+    )
     return parser
 
 if __name__ == '__main__':
@@ -21,11 +25,17 @@ if __name__ == '__main__':
     if args.filename:
         filename = args.filename
         lexer = get_lexer_for_filename(filename)
+        out = ''
 
-        with open('token.out', 'w') as f:
-            txt = open(filename, 'r').read()
-            for token in lex(txt, lexer):
-                f.write(str(token) + '\n')
-        print('token dump located at token.out')
+        txt = open(filename, 'r').read()
+        for token in lex(txt, lexer):
+            out += str(token) + '\n'
+
+        if args.out:
+            with open(args.out, 'w') as f:
+                f.write(out)
+                print('token dump located at %s' % (args.out))
+        else:
+            print(out)
     else:
         print('missing filename argument')
